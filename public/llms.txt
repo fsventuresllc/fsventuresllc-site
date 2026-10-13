@@ -6,11 +6,12 @@
 
 - [LedgerMedic](https://ledgermedic.com): software for keeping your books clean and your ledger honest, for small businesses that want accurate bookkeeping without a full-time accountant.
 - [Sprinklerly](https://sprinklerly.com): software for running and scheduling irrigation and sprinkler service work, including jobs, routes and customers.
+- [GrantClose](https://grantclose.com): post-award grant tracking for small nonprofits: upload an award letter, confirm the reporting schedule it contains, give every deadline an owner, keep the evidence next to it, and export a closeout packet when the award ends.
 
 ## Company
 
 - [About](https://fsventuresllc.com/): who we are and what we have shipped
-- [Products](https://fsventuresllc.com/products.html): both live products
+- [Products](https://fsventuresllc.com/products.html): all three live products
 - [Contact](https://fsventuresllc.com/contact.html): hello@fsventuresllc.com · Minnetonka, MN 55305, United States
 
 ## Legal
