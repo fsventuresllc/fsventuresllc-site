@@ -1,0 +1,35 @@
+# cs-waitlist (2026-10-19): the shared waitlist endpoint, a FREE Render web service.
+#
+# Only this service is described here. The company site itself (static site
+# "fsventuresllc-site", srv-daq7jaou01pc73f4o790, publish path public/) was created through
+# the Render API in cs-002 and is not managed by this file.
+#
+# The service was created through the Render API to match this file exactly (no Blueprint is
+# attached). Free plan: $0, spins down after ~15 idle minutes, so the first signup after a quiet
+# spell waits for a cold start (tens of seconds); teaser pages should allow for that.
+services:
+  - type: web
+    name: fsventuresllc-waitlist
+    runtime: node
+    plan: free
+    region: oregon
+    branch: main
+    buildCommand: npm ci && npm run build --workspace=api
+    startCommand: npm start --workspace=api
+    healthCheckPath: /api/v1/health
+    autoDeploy: true
+    buildFilter:
+      paths:
+        - api/**
+        - package.json
+        - package-lock.json
+        - render.yaml
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: RESEND_API_KEY
+        sync: false
+      - key: WAITLIST_AUDIENCE_ID
+        sync: false
+      - key: TURNSTILE_SECRET_KEY
+        sync: false
