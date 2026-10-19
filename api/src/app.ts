@@ -83,6 +83,21 @@ export async function buildApp(options: BuildOptions = {}): Promise<FastifyInsta
     {
       config: { rateLimit: WAITLIST_RATE_LIMIT },
       preHandler: async (request, reply) => {
+        // TEMPORARY cs-waitlist diagnostic: which proxy headers reach the process on Render.
+        request.log.info(
+          {
+            diag: {
+              names: Object.keys(request.headers).sort(),
+              xff: request.headers["x-forwarded-for"],
+              cf: request.headers["cf-connecting-ip"],
+              tci: request.headers["true-client-ip"],
+              xri: request.headers["x-real-ip"],
+              ip: request.ip,
+              ips: request.ips,
+            },
+          },
+          "diag",
+        );
         const origin = request.headers.origin;
         if (origin !== undefined && !isAllowedOrigin(origin)) {
           return reply.code(403).send({ error: "origin_not_allowed" });
