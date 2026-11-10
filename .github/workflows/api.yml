@@ -1,7 +1,8 @@
 name: API
 
 # cs-waitlist: tests and typecheck for the shared waitlist endpoint (api/).
-# Not a deploy gate: the Render web service deploys on push to main independently of this check.
+# Deploy gate (cs-013): the Render web service fsventuresllc-waitlist uses autoDeployTrigger
+# checksPass, so a main commit deploys only after this check (and every other check) passes.
 
 on:
   push:

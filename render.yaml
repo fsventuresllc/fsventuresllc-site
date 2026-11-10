@@ -5,7 +5,8 @@
 # the Render API in cs-002 and is not managed by this file.
 #
 # The service was created through the Render API to match this file exactly (no Blueprint is
-# attached). Free plan: $0, spins down after ~15 idle minutes, so the first signup after a quiet
+# attached, so Render never reads this file: a change here reaches the service only through the
+# Render API, PATCH /v1/services/srv-dbb49kmi0phs73etgjng, then read it back). Free plan: $0, spins down after ~15 idle minutes, so the first signup after a quiet
 # spell waits for a cold start (tens of seconds); teaser pages should allow for that.
 services:
   - type: web
@@ -17,7 +18,10 @@ services:
     buildCommand: npm ci && npm run build --workspace=api
     startCommand: npm start --workspace=api
     healthCheckPath: /api/v1/health
-    autoDeploy: true
+    # cs-013 (security CI 8): deploy only after every GitHub check on the commit has passed
+    # (the API workflow's tests, typecheck and build), not on every main commit. Applied live
+    # through the Render API on 2026-11-10 and read back as autoDeployTrigger=checksPass.
+    autoDeployTrigger: checksPass
     buildFilter:
       paths:
         - api/**

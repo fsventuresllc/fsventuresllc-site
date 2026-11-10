@@ -29,6 +29,11 @@ become underscores) set to the ISO-8601 UTC time of the latest signup for that a
 app: its slug in `SOURCES`, its domain in `ALLOWED_ORIGINS`, and the domain on the Turnstile widget.
 Free instances sleep when idle: a teaser form should wait up to ~60 s for the first answer.
 
+Deploys (cs-013): the service uses Render's `autoDeployTrigger: checksPass`, so a commit on `main`
+deploys only after every GitHub check on it has passed (the `API` workflow: tests, typecheck, build).
+No Blueprint is attached, so `render.yaml` is documentation: change the live setting through the
+Render API and read it back. `api/src/renderConfig.test.ts` fails if `render.yaml` drops the trigger.
+
 `npm ci && npm test --workspace=api && npm run typecheck --workspace=api`. Env vars follow the
 three-place rule (`api/.env.example`, `api/src/env.ts`, `render.yaml` with `sync: false`).
 
