@@ -1,15 +1,42 @@
 /* F&S VENTURES LLC -- fsventuresllc.com
-   Plain static CSS. No framework, no CDN fonts. */
+   Plain static CSS. No framework, no CDN fonts, no inline styles (the site's CSP is
+   default-src 'self').
+
+   cs-014: one type scale and one spacing scale, used everywhere. Change a size here,
+   never per page. */
 
 :root {
-  --ink: #1a1d21;
-  --muted: #5a6270;
-  --line: #e3e6ea;
+  /* colour */
+  --ink: #16191d;
+  --muted: #586170;
+  --faint: #7a8291;
+  --line: #e4e7eb;
   --bg: #ffffff;
   --bg-alt: #f6f7f9;
   --accent: #1f4b99;
   --accent-dark: #163a78;
-  --max-width: 780px;
+
+  /* type scale (base 17px, ~1.2 ratio) */
+  --text-sm: 0.875rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.1875rem;
+  --text-xl: 1.375rem;
+  --text-2xl: clamp(1.875rem, 1.35rem + 2.2vw, 2.625rem);
+  --leading-tight: 1.2;
+  --leading-body: 1.65;
+
+  /* spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  --max-width: 760px;
+  --gutter: 20px;
 }
 
 * {
@@ -24,20 +51,33 @@ body {
   margin: 0;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
   color: var(--ink);
   background: var(--bg);
-  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 a {
   color: var(--accent);
   text-decoration: underline;
+  text-underline-offset: 0.15em;
 }
 
 a:hover,
 a:focus {
   color: var(--accent-dark);
 }
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ---------- header ---------- */
 
 header.site-header {
   border-bottom: 1px solid var(--line);
@@ -46,31 +86,32 @@ header.site-header {
 .site-header .wrap {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 20px 20px 18px;
+  padding: var(--space-5) var(--gutter);
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: var(--space-3) var(--space-5);
 }
 
 .site-header .brand {
-  font-size: 1.15rem;
+  font-size: var(--text-base);
   font-weight: 700;
+  letter-spacing: 0.02em;
   text-decoration: none;
   color: var(--ink);
-  letter-spacing: -0.01em;
+}
+
+.site-header nav {
+  display: flex;
+  gap: var(--space-5);
 }
 
 .site-header nav a {
-  margin-left: 20px;
   text-decoration: none;
   color: var(--muted);
-  font-size: 0.95rem;
-}
-
-.site-header nav a:first-child {
-  margin-left: 0;
+  font-size: var(--text-sm);
+  font-weight: 500;
 }
 
 .site-header nav a:hover,
@@ -78,91 +119,192 @@ header.site-header {
   color: var(--ink);
 }
 
+/* Current page: the header is one shared partial, so each page names itself on <body>. */
+body[data-page="home"] .site-header nav a[href="/"],
+body[data-page="products"] .site-header nav a[href="/products.html"],
+body[data-page="contact"] .site-header nav a[href="/contact.html"] {
+  color: var(--ink);
+}
+
+/* ---------- page body ---------- */
+
 main {
+  flex: 1 0 auto;
+  width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 40px 20px 60px;
+  padding: var(--space-7) var(--gutter) var(--space-8);
+}
+
+h1,
+h2,
+h3 {
+  line-height: var(--leading-tight);
+  letter-spacing: -0.015em;
+  font-weight: 700;
 }
 
 h1 {
-  font-size: 2rem;
-  line-height: 1.25;
-  margin: 0 0 12px;
-  letter-spacing: -0.01em;
+  font-size: var(--text-2xl);
+  margin: 0 0 var(--space-4);
 }
 
 h2 {
-  font-size: 1.35rem;
-  margin: 40px 0 12px;
-  letter-spacing: -0.01em;
+  font-size: var(--text-xl);
+  margin: var(--space-7) 0 var(--space-3);
 }
 
 h3 {
-  font-size: 1.1rem;
-  margin: 24px 0 8px;
+  font-size: var(--text-lg);
+  margin: var(--space-5) 0 var(--space-2);
 }
 
 p {
-  margin: 0 0 16px;
+  margin: 0 0 var(--space-4);
 }
 
 .lede {
-  font-size: 1.15rem;
+  font-size: var(--text-lg);
   color: var(--muted);
-  margin-bottom: 32px;
+  margin-bottom: var(--space-6);
+  max-width: 38em;
 }
 
-.card {
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 22px 24px;
-  margin-bottom: 20px;
-  background: var(--bg-alt);
-}
-
-.card h2,
-.card h3 {
-  margin-top: 0;
-  font-size: 1.2rem;
-}
-
-.card p {
-  margin-bottom: 10px;
-}
-
-.card .visit {
+.eyebrow {
+  font-size: var(--text-sm);
   font-weight: 600;
-  text-decoration: none;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: var(--space-3);
 }
 
-.card .visit::after {
-  content: " \2192";
+.section-note {
+  color: var(--muted);
+}
+
+section + section {
+  margin-top: var(--space-2);
+}
+
+/* Home: the hero carries the h1, so the first section below it starts closer. */
+.hero {
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--line);
+}
+
+.hero .lede {
+  margin-bottom: var(--space-6);
 }
 
 ul.plain {
   padding-left: 1.1em;
-  margin: 0 0 16px;
+  margin: 0 0 var(--space-4);
 }
 
 ul.plain li {
-  margin-bottom: 6px;
+  margin-bottom: var(--space-2);
 }
 
 address {
   font-style: normal;
 }
 
+/* ---------- product list (home portfolio section, products page) ---------- */
+
+ul.product-list {
+  list-style: none;
+  margin: 0 0 var(--space-5);
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+ul.product-list > li {
+  padding: var(--space-5) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+ul.product-list h2,
+ul.product-list h3 {
+  font-size: var(--text-lg);
+  margin: 0 0 var(--space-1);
+}
+
+ul.product-list p {
+  color: var(--muted);
+  margin: 0 0 var(--space-2);
+}
+
+ul.product-list .visit {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+ul.product-list .visit::after {
+  content: " \2192";
+}
+
+ul.product-list .visit:hover,
+ul.product-list .visit:focus {
+  text-decoration: underline;
+}
+
+.more {
+  font-weight: 600;
+}
+
+/* ---------- facts (contact page, home contact section) ---------- */
+
+dl.facts {
+  margin: 0 0 var(--space-5);
+  border-top: 1px solid var(--line);
+}
+
+dl.facts > div {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+dl.facts dt {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--muted);
+  padding-top: 0.15em;
+}
+
+dl.facts dd {
+  margin: 0;
+}
+
+@media (max-width: 520px) {
+  dl.facts > div {
+    grid-template-columns: 1fr;
+    gap: var(--space-1);
+  }
+}
+
+/* ---------- footer ---------- */
+
 footer.site-footer {
   border-top: 1px solid var(--line);
-  margin-top: 40px;
+  background: var(--bg-alt);
 }
 
 footer.site-footer .wrap {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 24px 20px 40px;
+  padding: var(--space-6) var(--gutter) var(--space-7);
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
+footer.site-footer p {
+  margin: 0 0 var(--space-4);
 }
 
 footer.site-footer .legal-name {
@@ -171,19 +313,18 @@ footer.site-footer .legal-name {
 }
 
 footer.site-footer nav {
-  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
 }
 
 footer.site-footer nav a {
   color: var(--muted);
-  margin-right: 16px;
+  text-decoration: none;
+}
+
+footer.site-footer nav a:hover,
+footer.site-footer nav a:focus {
+  color: var(--ink);
   text-decoration: underline;
-}
-
-footer.site-footer nav a:last-child {
-  margin-right: 0;
-}
-
-section + section {
-  margin-top: 8px;
 }
