@@ -1,0 +1,90 @@
+name: Security (weekly full scan)
+
+# cs-012 (port of template-web tw-028 + tw-031): the weekly re-audit, on the default branch, so a new advisory, an expired waiver or a
+# secret in old history turns up even in a week with no push. ONE job (Actions minutes): the same checks as
+# the PR gate, over everything:
+#   - allowlists: security/audit-allowlist.json and security/license-allowlist.json complete and unexpired
+#   - dependency audit: audit-ci (high + critical, the security-audit bar) plus npm audit --json for details
+#   - licences: scripts/ci/license-check.mjs over the whole lockfile tree
+#   - gitleaks over the FULL history and Semgrep CE with stale baseline entries failing (--strict)
+#   - run-time tool pins: a newer release of an `npx --yes pkg@x.y.z` tool (none in this repo today)
+# Every step runs even when an earlier one fails, and leaves a JSON report. The last step opens or updates
+# ONE issue per finding (labels `security` + `critical`/`high`, due 48 h / 7 days from first seen) and
+# closes the ones a later run no longer finds (scripts/ci/security-findings.mjs). The factory's
+# `security-sweep` turns those issues into work orders. Off the default branch it is a dry run (no writes).
+# Dispatch with seed_fixture to file one made-up `high` finding and prove the path end to end.
+on:
+  schedule:
+    - cron: "41 7 * * 1"
+  workflow_dispatch:
+    inputs:
+      seed_fixture:
+        description: "Also file the made-up fixture-tw031 finding (proves scan -> issue -> work order)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-weekly
+  cancel-in-progress: false
+
+jobs:
+  full-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+          cache: npm
+      - name: Report directory
+        run: mkdir -p "$RUNNER_TEMP/security-reports"
+      - name: Allowlists complete, unexpired, audit-ci.json in step
+        if: success() || failure()
+        run: node scripts/ci/audit-allowlist.mjs
+      - name: Install from the lockfile (no install scripts)
+        if: success() || failure()
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Dependency audit (high/critical, allowlisted advisories only)
+        if: success() || failure()
+        run: |
+          npm audit --json > "$RUNNER_TEMP/security-reports/npm-audit.json" || true
+          npx --no-install audit-ci --config audit-ci.json
+      - name: Licences (GPL/AGPL/unknown fail, LGPL reported)
+        if: success() || failure()
+        run: node scripts/ci/license-check.mjs --json="$RUNNER_TEMP/security-reports/license.json"
+      - name: gitleaks (full history) and Semgrep CE (strict baseline)
+        if: success() || failure()
+        env:
+          GITLEAKS_REPORT: ${{ runner.temp }}/security-reports/gitleaks.json
+          SEMGREP_GATE_JSON: ${{ runner.temp }}/security-reports/semgrep-gate.json
+        run: bash scripts/ci/security-scan.sh full
+      - name: Run-time tool pins (newer release at least 14 days old)
+        if: success() || failure()
+        run: node scripts/ci/security-findings.mjs tools --out="$RUNNER_TEMP/security-reports/tools.json"
+      - name: Findings to issues (one per finding, SLA due date)
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SEED_FIXTURE: ${{ inputs.seed_fixture && '1' || '0' }}
+          IS_DEFAULT_BRANCH: ${{ github.ref_name == github.event.repository.default_branch }}
+        run: |
+          if [ "$IS_DEFAULT_BRANCH" = true ]; then
+            node scripts/ci/security-findings.mjs sync --reports="$RUNNER_TEMP/security-reports"
+          else
+            node scripts/ci/security-findings.mjs sync --reports="$RUNNER_TEMP/security-reports" --dry-run
+          fi
+      - name: Fail on the seeded fixture
+        if: inputs.seed_fixture
+        run: |
+          echo "seed_fixture: the fixture finding was filed; this run is red on purpose." >&2
+          exit 1

@@ -1,0 +1,62 @@
+# cs-012 (port of template-web tw-032): Dependabot. Weekly, grouped, few PRs (every PR runs the API and
+# Marketing footer workflows). Policy, enforced by .github/workflows/dependabot-policy.yml and the
+# factory's bin/pr-sweep.sh:
+#
+#   - patch + minor: ONE grouped PR per ecosystem per week; labelled `automerge`; merged only once every
+#     check on the PR is green (pr-sweep today; GitHub auto-merge where the repo has required checks).
+#   - major: one PR per dependency; labelled `needs-joe`, a comment names Joe; never auto-merged.
+#   - security updates (Dependabot alerts) use the same split: patch + minor grouped, majors alone.
+#
+# One npm entry at / covers every workspace (api, and the root's CI tools): there is one lockfile.
+# github-actions at / reads .github/workflows/*; every `uses:` is SHA-pinned with a `# vX.Y.Z` comment
+# (tw-030), and Dependabot bumps SHA and comment together.
+#
+# cooldown: a version must be 7 days old (npm majors 14) before a VERSION update proposes it, so a hijacked
+# release has time to be caught before it is auto-merged. Security updates ignore cooldown.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: America/New_York
+    open-pull-requests-limit: 3
+    cooldown:
+      default-days: 7
+      semver-major-days: 14
+    commit-message:
+      prefix: deps
+      prefix-development: deps-dev
+    groups:
+      npm-patch-minor:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: [minor, patch]
+      npm-security-patch-minor:
+        applies-to: security-updates
+        patterns: ["*"]
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: America/New_York
+    open-pull-requests-limit: 2
+    cooldown:
+      default-days: 7 # semver-*-days are npm-only (GitHub refuses them for github-actions)
+    commit-message:
+      prefix: ci
+    groups:
+      actions-patch-minor:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: [minor, patch]
+      actions-security-patch-minor:
+        applies-to: security-updates
+        patterns: ["*"]
+        update-types: [minor, patch]

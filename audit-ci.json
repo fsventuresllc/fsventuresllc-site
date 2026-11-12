@@ -1,0 +1,7 @@
+{
+  "$schema": "https://github.com/IBM/audit-ci/raw/main/docs/schema.json",
+  "_generated": "GENERATED from security/audit-allowlist.json by scripts/ci/audit-allowlist.mjs --write (tw-027). Do not edit by hand; reasons, owners and expiry dates live there.",
+  "high": true,
+  "critical": true,
+  "allowlist": []
+}

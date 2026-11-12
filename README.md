@@ -46,3 +46,32 @@ Their links are root-relative (`/products.html`) because `public/404.html` is se
 path. To change either, edit the partial and run the sync. To add a page, copy `scripts/marketing/page-template.html` into `public/`,
 add the URL to `public/sitemap.xml`, and run the sync. The `Marketing footer` CI workflow fails if any page
 drifts or lacks the markers.
+
+## Security CI (cs-012, port of template-web tw-026..tw-032)
+
+- **Lockfile installs** (tw-026): CI and Render both run `npm ci` from the root `package-lock.json`.
+- **CVE gate** (tw-027): the `API` workflow's job runs `audit-ci` (exact root devDependency, `npx --no-install`)
+  and fails on any high or critical advisory. A waiver lives only in `security/audit-allowlist.json` (id,
+  reason, owner, expiry at most 90 days out); `node scripts/ci/audit-allowlist.mjs --write` regenerates
+  `audit-ci.json` (never edit it by hand). cs-012 moved `zod` 3 -> 4.6.7 to clear GHSA-mrhx-c7xc-m3w5.
+- **Secrets and SAST** (tw-028): the same job runs gitleaks over the PR's commits and Semgrep CE over `api/src`
+  and `scripts` (`scripts/ci/security-scan.sh`); a Semgrep finding not in the reviewed
+  `security/semgrep-baseline.json` fails. Fix real findings; baseline only a false positive, with a reason.
+  This repo is public, so GitHub's own secret scanning and push protection are free; turning them on is a repo
+  setting for Michael.
+- **New dependencies and licences** (tw-029): `deps.yml`, only on PRs that change package files.
+  `scripts/ci/dep-review.mjs` flags a new package with an install script, a typosquat-like name or a version
+  under 14 days old; the `deps-reviewed` label clears the flags only when last added by a login in
+  `security/deps-reviewers.json`, and stops counting once a later push changes `package-lock.json`.
+  `scripts/ci/license-check.mjs` fails GPL/AGPL/unknown unless allowlisted in `security/license-allowlist.json`.
+  Never make `Dependency review` a required check (it is path-filtered).
+- **Workflow hardening** (tw-030): `node scripts/ci/workflow-lint.mjs` fails on an action not pinned to a
+  40-character SHA with a `# vX.Y.Z` comment, a missing read-only top-level `permissions:`,
+  `pull_request_target`, secrets in a PR-reachable workflow, a checkout that keeps its token, an unpinned
+  `npx --yes`, or a `git push` (no workflow pushes to `main`).
+- **Weekly re-audit** (tw-031): `security-weekly.yml` (Monday 07:41 UTC) runs the audit, the licence check,
+  gitleaks over the full history and Semgrep `--strict`, and keeps one GitHub issue per finding (labels
+  `security` + `critical`/`high`, due 48 h / 7 days from first seen).
+- **Dependabot** (tw-032): `.github/dependabot.yml`, weekly grouped patch/minor PRs (labelled `automerge`
+  by `dependabot-policy.yml`), majors one per dependency (labelled `needs-joe`, never merged automatically).
+- Run locally: `node --test scripts/ci/*.test.mjs && node scripts/ci/workflow-lint.mjs`.

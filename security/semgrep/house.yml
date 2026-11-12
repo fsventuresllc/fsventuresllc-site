@@ -1,0 +1,73 @@
+# tw-028: house Semgrep rules, run next to the named registry rulesets (p/javascript, p/typescript,
+# p/nodejsscan, p/secrets) by scripts/ci/security-scan.sh. The registry's request-taint rules model
+# Express (req/res); this stack is Fastify (request/reply), so `eval(request.body)` in a Fastify
+# handler passed every registry rule when tw-028 was built. These close that gap. Each rule has a
+# fixture under security/semgrep/tests/ (`semgrep --test security/semgrep`).
+rules:
+  - id: house-dynamic-code-execution
+    languages: [typescript, javascript]
+    severity: ERROR
+    message: >-
+      Code built at runtime is executed (eval / new Function / vm). Nothing in this stack needs it
+      (no dynamic code loading); remove it. If it is truly needed, get the PR reviewer's agreement
+      and add a reviewed entry to security/semgrep-baseline.json.
+    pattern-either:
+      - patterns:
+          - pattern: eval($X)
+          - pattern-not: eval("...")
+      - pattern: new Function(...)
+      - pattern: Function(...)
+      - pattern: vm.runInThisContext(...)
+      - pattern: vm.runInNewContext(...)
+      - pattern: vm.runInContext(...)
+      - pattern: new vm.Script(...)
+      - patterns:
+          - pattern-either:
+              - pattern: setTimeout($X, ...)
+              - pattern: setInterval($X, ...)
+          - pattern-not: setTimeout(function (...) { ... }, ...)
+          - pattern-not: setTimeout((...) => $Y, ...)
+          - pattern-not: setInterval(function (...) { ... }, ...)
+          - pattern-not: setInterval((...) => $Y, ...)
+          - metavariable-pattern:
+              metavariable: $X
+              pattern-either:
+                - pattern: '"..."'
+                - pattern: '`...`'
+                - pattern: '"..." + $Z'
+
+  - id: house-fastify-request-to-dangerous-sink
+    languages: [typescript, javascript]
+    severity: ERROR
+    message: >-
+      Data from the Fastify request (body, query, params, headers) reaches code execution, a shell
+      command or a raw file path. Validate it with zod into a fixed set of values first, or do not
+      pass it there at all.
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern: $REQ.body
+              - pattern: $REQ.query
+              - pattern: $REQ.params
+              - pattern: $REQ.headers
+              - pattern: $REQ.raw
+          - pattern-inside: |
+              $APP.$METHOD(..., async ($REQ, ...) => { ... })
+    pattern-sinks:
+      - pattern-either:
+          - pattern: eval(...)
+          - pattern: new Function(...)
+          - pattern: Function(...)
+          - pattern: vm.$RUN(...)
+          - pattern: require("child_process").$EXEC(...)
+          - pattern: child_process.$EXEC(...)
+          - pattern: exec(...)
+          - pattern: execSync(...)
+          - pattern: "spawn(..., {..., shell: true, ...})"
+          - pattern: fs.$FS($PATH, ...)
+          - pattern: readFile($PATH, ...)
+          - pattern: readFileSync($PATH, ...)
+          - pattern: writeFile($PATH, ...)
+          - pattern: writeFileSync($PATH, ...)
+          - pattern: createReadStream($PATH, ...)
