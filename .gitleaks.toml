@@ -1,0 +1,26 @@
+# cs-012 (port of template-web tw-028): gitleaks config for the scan in api.yml and the weekly full-history scan
+# (security-weekly.yml). It extends gitleaks' default rules and allowlists ONLY the values below,
+# each a documented public test value or a fixture written for a test. Add to this list only with
+# a comment saying what the value is and why it is not a secret; never allowlist a whole path.
+# A real secret that turns up is rotated (factory bin/rotate-secrets.sh, Michael), not listed here.
+
+title = "fsventuresllc-site gitleaks config (cs-012, port of template-web tw-028)"
+
+[extend]
+useDefault = true
+
+# The template's value allowlists (Turnstile test keys, Stripe test placeholders, token fixtures, and the
+# tw-028 seed test's AWS-shaped values) are left out: none of those values exists in this repo.
+
+[[rules]]
+id = "generic-api-key"
+[[rules.allowlists]]
+description = "An environment variable NAME, not its value"
+# generic-api-key reads `api_secret: env.GA4_API_SECRET` (api/src/analytics/keyEvents.ts) and
+# `- key: GA4_MEASUREMENT_ID` (render.yaml) as key = secret (template-web examples; here render.yaml's
+# RESEND_API_KEY / TURNSTILE_SECRET_KEY entries). An upper-case identifier with at least
+# one underscore, optionally behind env. / process.env., is a variable name. Scoped to this rule
+# only, so the AWS, Stripe, GitHub, ... rules still see every value.
+regexes = [
+  '''^(?:process\.)?(?:env\.)?[A-Z][A-Z0-9]*(?:_[A-Z0-9]+)+$''',
+]

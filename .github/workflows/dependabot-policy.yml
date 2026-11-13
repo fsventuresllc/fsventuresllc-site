@@ -1,0 +1,87 @@
+name: Dependabot policy
+
+# cs-012 (port of template-web tw-032): labels every Dependabot PR by policy (Joe, 2026-11-10). Patch/minor -> `automerge`, merged once
+# every check on the PR is green; major (or maintainer change, or unreadable update type) -> `needs-joe` plus
+# one comment naming Joe, never merged automatically. scripts/ci/dependabot-policy.mjs has the rules and
+# their tests.
+#
+# Who merges: the factory's bin/pr-sweep.sh merges a dependabot/* PR that carries `automerge` (added by
+# this job), no `needs-joe`, only Dependabot commits, every check green and mergeable_state clean. GitHub
+# auto-merge is turned on as well only where the repo allows auto-merge AND the default branch has enforced
+# required status checks; otherwise `gh pr merge --auto` would merge without waiting, so the job fails
+# closed and leaves the merge to pr-sweep. This repo is public, so branch protection with required checks is
+# available on GitHub Free; until Michael sets it (a repo setting, not this workflow's job), pr-sweep merges.
+#
+# Cost: one short job per Dependabot PR event (no npm ci, sparse checkout of two folders), nothing on any
+# other PR (the job-level `if` skips it before a runner starts).
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  dependabot-policy:
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: write # gh pr merge --auto (only when required checks exist)
+      pull-requests: write # labels, the needs-joe comment, auto-merge
+      checks: read # wait for dependency-review before enabling GitHub auto-merge
+    steps:
+      # The policy script from the BASE commit, never from the PR's own tree.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
+          sparse-checkout: |
+            scripts/ci
+            security
+
+      # Fails unless the PR's author and every commit are Dependabot's (verified), so a human push to a
+      # Dependabot branch never rides on the automerge label: the failure step below removes it.
+      - id: meta
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
+        with:
+          github-token: ${{ github.token }}
+
+      - id: policy
+        name: Apply the policy (labels, needs-joe comment)
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+          UPDATE_TYPE: ${{ steps.meta.outputs.update-type }}
+          PACKAGE_ECOSYSTEM: ${{ steps.meta.outputs.package-ecosystem }}
+          DEPENDENCY_NAMES: ${{ steps.meta.outputs.dependency-names }}
+          DEPENDENCY_GROUP: ${{ steps.meta.outputs.dependency-group }}
+          MAINTAINER_CHANGES: ${{ steps.meta.outputs.maintainer-changes }}
+          PREVIOUS_VERSION: ${{ steps.meta.outputs.previous-version }}
+          NEW_VERSION: ${{ steps.meta.outputs.new-version }}
+        run: node scripts/ci/dependabot-policy.mjs
+
+      - name: GitHub auto-merge (only with required status checks)
+        if: steps.policy.outputs.github_automerge == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr merge --auto --squash "$PR_URL"
+
+      - name: On failure, withdraw automerge
+        if: failure()
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          node scripts/ci/dependabot-policy.mjs --withdraw || true
+          gh pr merge --disable-auto "$PR_URL" 2>/dev/null || true

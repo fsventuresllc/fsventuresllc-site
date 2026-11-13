@@ -1,0 +1,74 @@
+name: Dependency review
+
+# cs-012 (port of template-web tw-029): new-dependency review and licence gate, ONE job, run only on a PR that changes a package.json,
+# the lockfile, these checks or their config (a path filter at the workflow level, so any other PR bills
+# nothing). No npm ci: both scripts read package-lock.json (plus `npm view` / the registry for publish dates
+# and licences the lockfile does not record). Free tools only: GitHub's dependency-review-action needs paid
+# Advanced Security on a private repo (this repo is public, but one implementation
+# serves the whole portfolio).
+#
+# - scripts/ci/dep-review.mjs: every package NEW in the PR (not a bump of one already present) is flagged
+#   for an install script, a name 1-2 edits from a well-known or existing package, or a version published
+#   less than 14 days ago. A flag fails the job unless the PR carries `deps-reviewed`, last added by a login
+#   in security/deps-reviewers.json. Adding or removing a label re-runs this workflow. The label stops
+#   counting once a push after it changes package-lock.json (Joe, 2026-11-10): the reviewer adds it again.
+# - scripts/ci/license-check.mjs: every package in the lockfile tree; GPL-*, AGPL-* and unknown/UNLICENSED
+#   fail unless allowlisted in security/license-allowlist.json (reason, owner, expiry <= 90 days); LGPL is
+#   reported only. The weekly run (security-weekly.yml) repeats it so an expired entry goes red.
+#
+# Because of the path filter this check does not run on every PR: never make "Dependency review" a
+# required status check (a PR that skips it would wait forever); api.yml and marketing-footer.yml are the always-run set.
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+    paths:
+      - "package.json"
+      - "**/package.json"
+      - "package-lock.json"
+      - "scripts/ci/dep-review.mjs"
+      - "scripts/ci/license-check.mjs"
+      - "scripts/ci/lockfile.mjs"
+      - "security/typosquat-reference.json"
+      - "security/deps-reviewers.json"
+      - "security/license-allowlist.json"
+      - ".github/workflows/deps.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  dependency-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: read # who added the deps-reviewed label (issue events)
+      pull-requests: read
+      actions: read # the PR's head when the label was added (pull_request workflow runs)
+    steps:
+      # The PR merge commit and its first parent (the base), nothing more.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 20
+      - name: New dependencies (install script, typosquat name, published < 14 days ago)
+        env:
+          DEPS_REVIEWED_LABEL: ${{ contains(github.event.pull_request.labels.*.name, 'deps-reviewed') && '1' || '0' }}
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          PR_HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+        run: node scripts/ci/dep-review.mjs --base-ref=HEAD^1
+      - name: Licences (GPL/AGPL/unknown fail, LGPL reported)
+        if: success() || failure()
+        run: node scripts/ci/license-check.mjs

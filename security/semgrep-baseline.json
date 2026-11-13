@@ -1,0 +1,13 @@
+{
+  "_comment": "cs-012 (port of template-web tw-028): Semgrep CE findings read and accepted as not vulnerabilities. Matched by rule + path + code (the flagged line, trimmed) by scripts/ci/semgrep-gate.mjs. Add an entry only with a reason the PR reviewer can check; fix real findings instead.",
+  "findings": [
+    {
+      "rule": "ajinabraham.njsscan.dos.regex_dos.regex_dos",
+      "path": "scripts/ci/audit-allowlist.mjs",
+      "code": "else if (!ID_RE.test(e.id)) problems.push(`${where}: id must be an advisory id (GHSA-xxxx-xxxx-xxxx or CVE-YYYY-NNNN)`);",
+      "reason": "Anchored regex literal (ID_RE) with no nested or overlapping quantifier, run at build time on a short repo-controlled value (an id in security/audit-allowlist.json), not on request input. Same line and finding as template-web's reviewed baseline entry (tw-028).",
+      "reviewedBy": "claude (cs-012); PR reviewer joestella99",
+      "reviewedOn": "2026-11-12"
+    }
+  ]
+}

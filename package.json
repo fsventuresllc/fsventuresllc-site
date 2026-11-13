@@ -3,5 +3,8 @@
   "private": true,
   "workspaces": [
     "api"
-  ]
+  ],
+  "devDependencies": {
+    "audit-ci": "7.1.0"
+  }
 }

@@ -1,0 +1,17 @@
+# cs-012 (port of template-web tw-028): what Semgrep CE skips. Semgrep scans only api/src and scripts
+# (scripts/ci/security-scan.sh). A .semgrepignore REPLACES Semgrep's built-in list, so its
+# defaults are repeated first.
+node_modules/
+dist/
+build/
+coverage/
+*.min.js
+.git/
+
+# Generated code: tsc writes to api/dist/ (above).
+
+# Test code never ships. Fixture secrets in tests are gitleaks' job, which scans every file.
+*.test.ts
+*.test.tsx
+*.test.mjs
+api/src/test/

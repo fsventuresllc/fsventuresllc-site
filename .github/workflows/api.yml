@@ -3,6 +3,19 @@ name: API
 # cs-waitlist: tests and typecheck for the shared waitlist endpoint (api/).
 # Deploy gate (cs-013): the Render web service fsventuresllc-waitlist uses autoDeployTrigger
 # checksPass, so a main commit deploys only after this check (and every other check) passes.
+#
+# cs-012 (port of template-web tw-027, tw-028, tw-030): the per-PR / per-push security checks are folded
+# into this one job (one runner, one npm ci), so a red check also holds the API deploy:
+#   - CVE gate: audit-ci (an exact root devDependency, run from the lockfile) fails on any high or critical
+#     advisory not waived in security/audit-allowlist.json (reason, owner, expiry <= 90 days);
+#     audit-ci.json is generated from it and the allowlist check fails on a stale or out-of-step entry.
+#     Nothing here fixes, commits or pushes: fixes arrive as reviewed PRs (Dependabot, .github/dependabot.yml).
+#   - the scripts/ci tests and workflow-lint (every action SHA-pinned, read-only default token, no
+#     pull_request_target, no secrets on PRs, no persisted checkout token, no workflow pushes).
+#   - gitleaks over the PR's commits (or the pushed range) and Semgrep CE over api/src and scripts when the
+#     range touches them, gated by the reviewed security/semgrep-baseline.json.
+# Full history (gitleaks over every commit, Semgrep --strict, licences) runs weekly: security-weekly.yml.
+# New dependencies and licences: deps.yml (path-filtered, PRs that change package files only).
 
 on:
   push:
@@ -10,16 +23,50 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
 jobs:
   api:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+          fetch-depth: 0 # gitleaks reads the PR's / push's commit range
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 22
           cache: npm
+      - name: Audit allowlist complete, unexpired, and audit-ci.json in step
+        run: node scripts/ci/audit-allowlist.mjs
       - run: npm ci
+      - name: Audit (high/critical, allowlisted advisories only)
+        run: npx --no-install audit-ci --config audit-ci.json
       - run: npm test --workspace=api
       - run: npm run typecheck --workspace=api
       - run: npm run build --workspace=api
+      - name: CI script tests
+        run: node --test scripts/ci/*.test.mjs
+      - name: Workflow lint (SHA pins, permissions, no pull_request_target, no secrets on PRs, no pushes)
+        run: node scripts/ci/workflow-lint.mjs
+      - name: gitleaks (secrets) and Semgrep CE (SAST)
+        env:
+          EVENT: ${{ github.event_name }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          PUSH_AFTER: ${{ github.sha }}
+        run: |
+          if [ "$EVENT" = "pull_request" ]; then
+            bash scripts/ci/security-scan.sh range "$PR_BASE" "$PR_HEAD"
+          else
+            bash scripts/ci/security-scan.sh range "$PUSH_BEFORE" "$PUSH_AFTER"
+          fi
