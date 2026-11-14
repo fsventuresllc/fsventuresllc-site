@@ -167,13 +167,13 @@ test('product headings on products.html are h2 under the page h1', () => {
 });
 
 // cs-007: every product the company lists appears identically everywhere it is listed, so the next
-// launch updates all of them or CI fails. products.html is the source; the home "What we've shipped"
-// block, its "See all N products" link, the products lede, llms.txt and the contact page follow it.
+// launch updates all of them or CI fails. products.html is the source; the home "Portfolio"
+// block (cs-014: a ul.product-list, was div.card), its "See all N products" link, the products lede, llms.txt and the contact page follow it.
 const NUMBER_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
 
 function productsPageList() {
   const html = siteFile('products.html');
-  return [...html.matchAll(/<div class="card">\s*<h2>([^<]+)<\/h2>[\s\S]*?<a class="visit" href="(https:\/\/[^"]+)">Visit ([^<]+)<\/a>/g)]
+  return [...html.matchAll(/<li>\s*<h2>([^<]+)<\/h2>[\s\S]*?<a class="visit" href="(https:\/\/[^"]+)">Visit ([^<]+)<\/a>/g)]
     .map(([, name, url, label]) => ({ name, url, label }));
 }
 
@@ -188,12 +188,12 @@ test('the product list is the same on products.html, the home page, llms.txt and
   }
 
   const index = siteFile('index.html');
-  const homeCards = [...index.matchAll(/<div class="card">\s*<h3>([^<]+)<\/h3>[\s\S]*?<a class="visit" href="([^"]+)">Visit ([^<]+)<\/a>/g)]
+  const homeCards = [...index.matchAll(/<li>\s*<h3>([^<]+)<\/h3>[\s\S]*?<a class="visit" href="([^"]+)">Visit ([^<]+)<\/a>/g)]
     .map(([, name, url, label]) => ({ name, url, label }));
   assert.deepEqual(homeCards, products);
 
   const count = NUMBER_WORDS[products.length];
-  assert.match(index, new RegExp(`<a href="products.html">See all ${count} products</a>`));
+  assert.match(index, new RegExp(`<a (?:class="more" )?href="products.html">See all ${count} products</a>`));
   assert.doesNotMatch(index, /See both products/);
   const productsHtml = siteFile('products.html');
   const Count = count[0].toUpperCase() + count.slice(1);
