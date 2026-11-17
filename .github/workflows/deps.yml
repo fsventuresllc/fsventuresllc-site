@@ -52,7 +52,7 @@ jobs:
       actions: read # the PR's head when the label was added (pull_request workflow runs)
     steps:
       # The PR merge commit and its first parent (the base), nothing more.
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 2
           persist-credentials: false
