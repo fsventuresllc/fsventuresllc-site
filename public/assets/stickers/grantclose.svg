@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160" role="img" aria-label="Sticker: a grant report with a ribbon seal and check mark">
+<defs><filter id="d" x="-20%" y="-20%" width="140%" height="150%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="4" stdDeviation="3.5" flood-color="#152039" flood-opacity="0.24"/></filter></defs>
+<g filter="url(#d)" fill="#ffffff"><rect x="22" y="10" width="104" height="134" rx="22"/><circle cx="112" cy="110" r="36"/></g>
+<g stroke="#152039" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<path d="M34 22 H96 L114 40 V132 H34 Z" fill="#fffaf0"/>
+<path d="M96 22 V40 H114" fill="#e7e2d8"/>
+<path d="M46 46 H84" fill="none" stroke="#3247c8" stroke-width="5"/>
+<path d="M46 62 H100 M46 74 H96 M46 86 H90 M46 98 H72" fill="none" stroke="#9aa6c4" stroke-width="3.5"/>
+<path d="M100 124 L94 146 L104 140 L112 148 L114 126 Z" fill="#ff6b4a"/>
+<path d="M124 124 L130 146 L120 140 L112 148 L110 126 Z" fill="#ff6b4a"/>
+<circle cx="112" cy="110" r="22" fill="#ffc23d"/>
+<path d="M102 110 L109 117 L122 103" fill="none" stroke-width="5"/>
+</g>
+</svg>

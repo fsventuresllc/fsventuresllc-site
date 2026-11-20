@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img" aria-label="Sticker: a target">
+<defs><filter id="d" x="-20%" y="-20%" width="140%" height="150%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="3" stdDeviation="2.5" flood-color="#152039" flood-opacity="0.22"/></filter></defs>
+<circle cx="48" cy="46" r="40" fill="#ffffff" filter="url(#d)"/>
+<g stroke="#152039" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
+<circle cx="48" cy="46" r="29" fill="#ff6b4a"/><circle cx="48" cy="46" r="19" fill="#ffffff"/><circle cx="48" cy="46" r="9" fill="#ff6b4a"/><path d="M48 46 L72 22 M64 22 H72 V30" fill="none"/>
+</g>
+</svg>

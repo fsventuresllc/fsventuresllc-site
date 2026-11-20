@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img" aria-label="Sticker: code brackets in a window">
+<defs><filter id="d" x="-20%" y="-20%" width="140%" height="150%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="3" stdDeviation="2.5" flood-color="#152039" flood-opacity="0.22"/></filter></defs>
+<circle cx="48" cy="46" r="40" fill="#ffffff" filter="url(#d)"/>
+<g stroke="#152039" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
+<rect x="18" y="22" width="60" height="48" rx="8" fill="#3247c8"/><path d="M18 34 H78" fill="none"/><path d="M40 44 L32 52 L40 60 M56 44 L64 52 L56 60" fill="none" stroke="#ffffff" stroke-width="4.5"/>
+</g>
+</svg>

@@ -12,11 +12,18 @@
 <!-- site-header:start -->
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="/">F&amp;S VENTURES LLC</a>
-    <nav>
+    <a class="brand" href="/" aria-label="F&amp;S VENTURES LLC, home">
+      <svg class="brand-mark" viewBox="0 0 40 40" width="36" height="36" aria-hidden="true" focusable="false"><rect x="1" y="1" width="38" height="38" rx="11" fill="#3247c8"/><path d="M11 29 V19 M20 29 V13 M29 29 V22" stroke="#ffffff" stroke-width="5" stroke-linecap="round" fill="none"/><circle cx="29" cy="12" r="4" fill="#ffc23d"/></svg>
+      <span class="brand-name">F&amp;S Ventures <span class="brand-llc">LLC</span></span>
+    </a>
+    <input class="nav-toggle" type="checkbox" id="nav-toggle" aria-label="Show the menu">
+    <label class="nav-button" for="nav-toggle" aria-hidden="true"><span></span></label>
+    <nav class="site-nav" aria-label="Main">
       <a href="/">Home</a>
       <a href="/portfolio.html">Portfolio</a>
+      <a href="/#company">Company</a>
       <a href="/contact.html">Contact</a>
+      <a class="button nav-cta" href="mailto:hello@fsventuresllc.com">Email us</a>
     </nav>
   </div>
 </header>
@@ -143,17 +150,21 @@
 <!-- site-footer:start -->
 <footer class="site-footer">
   <div class="wrap">
-    <p><span class="legal-name">F&amp;S VENTURES LLC</span> &mdash; a Delaware limited liability company.<br>
-    Minnetonka, MN 55305 &middot; <a href="mailto:hello@fsventuresllc.com">hello@fsventuresllc.com</a></p>
-    <nav>
+    <div class="footer-brand">
+      <p class="footer-logo"><img src="/assets/logo-mark.svg" alt="" width="32" height="32"> <span class="legal-name">F&amp;S VENTURES LLC</span></p>
+      <p>A Delaware limited liability company.<br>
+      Minnetonka, MN 55305 &middot; <a href="mailto:hello@fsventuresllc.com">hello@fsventuresllc.com</a></p>
+    </div>
+    <nav class="footer-col" aria-label="Company">
+      <p class="footer-heading">Company</p>
       <a href="/">Home</a>
       <a href="/portfolio.html">Portfolio</a>
       <a href="/contact.html">Contact</a>
       <a href="/privacy.html">Privacy Policy</a>
       <a href="/terms.html">Terms of Service</a>
     </nav>
-    <nav class="footer-products" aria-label="Our products">
-      <span>Our products:</span>
+    <nav class="footer-col footer-products" aria-label="Our products">
+      <p class="footer-heading">Our products</p>
       <!-- portfolio-names:start -->
       <a href="https://ledgermedic.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">LedgerMedic</a>
       <a href="https://sprinklerly.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Sprinklerly</a>
