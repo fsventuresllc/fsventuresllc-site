@@ -121,7 +121,7 @@ header.site-header {
 
 /* Current page: the header is one shared partial, so each page names itself on <body>. */
 body[data-page="home"] .site-header nav a[href="/"],
-body[data-page="products"] .site-header nav a[href="/products.html"],
+body[data-page="portfolio"] .site-header nav a[href="/portfolio.html"],
 body[data-page="contact"] .site-header nav a[href="/contact.html"] {
   color: var(--ink);
 }
@@ -316,6 +316,10 @@ footer.site-footer nav {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2) var(--space-5);
+}
+
+footer.site-footer nav.footer-products {
+  margin-top: var(--space-3);
 }
 
 footer.site-footer nav a {

@@ -42,7 +42,16 @@ three-place rule (`api/.env.example`, `api/src/env.ts`, `render.yaml` with `sync
 Every page renders the same header and footer. Each lives once, in `scripts/marketing/header.html`
 and `scripts/marketing/footer.html`, and `node scripts/marketing/sync-partials.mjs` stamps them into
 every page between `<!-- site-header:start/end -->` and `<!-- site-footer:start/end -->` markers.
-Their links are root-relative (`/products.html`) because `public/404.html` is served at any missing
+Their links are root-relative (`/portfolio.html`) because `public/404.html` is served at any missing
 path. To change either, edit the partial and run the sync. To add a page, copy `scripts/marketing/page-template.html` into `public/`,
 add the URL to `public/sitemap.xml`, and run the sync. The `Marketing footer` CI workflow fails if any page
 drifts or lacks the markers.
+
+## Portfolio list (cs-015)
+
+Every product the site lists comes from `scripts/marketing/portfolio.json`, which the saas-factory
+control repo writes (`bin/site-portfolio.mjs`): any app at stage launch or later, not internal or
+paused, is on it automatically, and the night run opens a `portfolio-sync` PR when the set changes.
+`node scripts/marketing/build-portfolio.mjs` stamps it into `/portfolio.html`, the home Portfolio
+section, the footer's product names and `llms.txt`; CI fails if any of them drift. Never hand-edit
+those lists. `/products.html` is retired: a Render redirect rule sends it to `/portfolio.html`.

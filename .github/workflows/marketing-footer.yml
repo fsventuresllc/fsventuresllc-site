@@ -19,5 +19,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - run: node scripts/marketing/build-portfolio.mjs --check
       - run: node scripts/marketing/sync-partials.mjs --check
       - run: node --test scripts/marketing/sync-partials.test.mjs
