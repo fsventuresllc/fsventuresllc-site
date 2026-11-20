@@ -1,0 +1,4 @@
+{
+  "_doc": "cs-012 (port of template-web tw-027): the ONLY place a dependency advisory is accepted. Every entry needs id (GHSA-... or CVE-...), reason, expires (YYYY-MM-DD, at most 90 days out) and owner. `node scripts/ci/audit-allowlist.mjs --write` regenerates audit-ci.json from this file; CI (security-audit) fails when an entry is incomplete, expired, more than 90 days out, or audit-ci.json is out of step. Renewing means re-checking the advisory and writing a new expiry in a reviewed PR.",
+  "entries": []
+}

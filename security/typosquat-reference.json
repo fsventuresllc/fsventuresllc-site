@@ -1,0 +1,22 @@
+{
+  "_doc": "tw-029: well-known npm package names that scripts/ci/dep-review.mjs compares every NEW package name against (edit distance 1 for names of 3-5 characters, 1-2 for longer ones), on top of every name already in the base lockfile. A new package whose name is near one of these but not equal is flagged as a possible typosquat. Add a name here when the stack takes on a popular dependency; never remove one to silence a flag (a real near-name package gets the deps-reviewed label instead).",
+  "names": [
+    "@aws-sdk/client-s3", "@babel/core", "@babel/parser", "@babel/runtime", "@fastify/cookie", "@fastify/cors",
+    "@fastify/helmet", "@fastify/rate-limit", "@fastify/static", "@playwright/test", "@prisma/client",
+    "@sentry/node", "@sentry/react", "@testing-library/react", "@types/node", "@types/react",
+    "@typescript-eslint/parser", "@vitejs/plugin-react", "acorn", "ajv", "ansi-regex", "ansi-styles",
+    "argon2", "async", "axios", "babel-core", "bcrypt", "bcryptjs", "body-parser", "browserslist", "buffer",
+    "chalk", "cheerio", "chokidar", "classnames", "colors", "commander", "cookie", "cookie-parser", "cors",
+    "cross-env", "cross-spawn", "crypto-js", "date-fns", "dayjs", "debug", "deepmerge", "dotenv", "ejs",
+    "electron", "esbuild", "eslint", "event-stream", "express", "fast-glob", "fastify", "form-data",
+    "fs-extra", "glob", "graceful-fs", "handlebars", "helmet", "http-proxy", "https-proxy-agent", "inquirer",
+    "jest", "jose", "jquery", "js-yaml", "jsdom", "json5", "jsonwebtoken", "lodash", "lru-cache", "marked",
+    "minimatch", "minimist", "mkdirp", "moment", "mongodb", "mongoose", "morgan", "multer", "mysql", "mysql2",
+    "nanoid", "next", "node-fetch", "node-forge", "nodemailer", "nodemon", "npm", "otplib", "pg", "picomatch",
+    "playwright", "postcss", "prettier", "prisma", "prop-types", "qrcode", "qs", "react", "react-dom",
+    "react-router", "react-router-dom", "redis", "redux", "request", "resend", "rimraf", "rollup", "rxjs",
+    "semver", "sharp", "socket.io", "source-map", "stripe", "styled-components", "supertest", "tailwindcss",
+    "tslib", "typescript", "ua-parser-js", "underscore", "uuid", "validator", "vite", "vitest", "vue",
+    "webpack", "ws", "xml2js", "yargs", "zod"
+  ]
+}

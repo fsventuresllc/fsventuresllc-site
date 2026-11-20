@@ -1,0 +1,4 @@
+{
+  "_doc": "tw-029: the ONLY place a dependency licence that scripts/ci/license-check.mjs would fail (GPL-*, AGPL-*, unknown or UNLICENSED) is accepted. Same rule as security/audit-allowlist.json (tw-027): every entry needs package (the npm name), license (the licence string the check reports, so a later licence change fails again), reason, owner and expires (YYYY-MM-DD, at most 90 days out); optional version pins it to one version. An incomplete, expired or over-90-day entry fails the check. Renewing means re-reading the package's licence and writing a new expiry in a reviewed PR.",
+  "entries": []
+}

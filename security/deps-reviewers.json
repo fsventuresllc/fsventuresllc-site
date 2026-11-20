@@ -1,0 +1,8 @@
+{
+  "_doc": "cs-012 (port of template-web tw-029): the GitHub logins whose deps-reviewed label clears a dependency-review flag. scripts/ci/dep-review.mjs reads the PR's issue events and honours the label only when the LATEST time it was added was by one of these logins; anyone else adding it (including an automated routine) clears nothing. Changing this list is a security decision and goes through Joe (portfolio-security-ci-decisions). The label also stops counting when a push after it changes package-lock.json (Joe, 2026-11-10): a reviewer adds it again after reading the new lockfile.",
+  "reviewers": [
+    "joestella99",
+    "schnapf74",
+    "fsventures-llc"
+  ]
+}
