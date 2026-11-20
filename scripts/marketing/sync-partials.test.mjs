@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, cpSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, cpSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -158,60 +158,59 @@ test('favicon.ico is a real ICO file', () => {
   assert.ok(ico.readUInt16LE(4) >= 1, 'at least one image');
 });
 
-test('product headings on products.html are h2 under the page h1', () => {
-  const html = siteFile('products.html');
-  assert.doesNotMatch(html, /<h3\b/);
-  assert.match(html, /<h2>LedgerMedic<\/h2>/);
-  assert.match(html, /<h2>Sprinklerly<\/h2>/);
-  assert.match(html, /<h2>GrantClose<\/h2>/);
+// cs-015: one data file, portfolio.json (written by saas-factory bin/site-portfolio.mjs from app
+// state: every product at stage launch or later), drives every place the site lists products.
+// build-portfolio.mjs stamps it; these tests prove each place matches it.
+const portfolioJson = JSON.parse(readFileSync(join(here, 'portfolio.json'), 'utf8')).products;
+const utmUrl = (url) => {
+  const u = new URL(url);
+  u.searchParams.set('utm_source', 'fsventuresllc');
+  u.searchParams.set('utm_medium', 'portfolio');
+  return u.toString().replace(/&/g, '&amp;');
+};
+
+test('portfolio.json lists at least the three original products, each with an https apex link', () => {
+  const names = portfolioJson.map((p) => p.name);
+  for (const n of ['LedgerMedic', 'Sprinklerly', 'GrantClose']) assert.ok(names.includes(n), n);
+  for (const p of portfolioJson) assert.match(p.url, /^https:\/\/[a-z0-9-]+\.[a-z]+\/?$/, p.name);
 });
 
-// cs-007: every product the company lists appears identically everywhere it is listed, so the next
-// launch updates all of them or CI fails. products.html is the source; the home "What we've shipped"
-// block, its "See all N products" link, the products lede, llms.txt and the contact page follow it.
-const NUMBER_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+test('product headings on portfolio.html are h2 under the page h1', () => {
+  const html = siteFile('portfolio.html');
+  assert.doesNotMatch(html, /<h3\b/);
+  for (const p of portfolioJson) assert.match(html, new RegExp(`<h2>${p.name}</h2>`));
+});
 
-function productsPageList() {
-  const html = siteFile('products.html');
-  return [...html.matchAll(/<div class="card">\s*<h2>([^<]+)<\/h2>[\s\S]*?<a class="visit" href="(https:\/\/[^"]+)">Visit ([^<]+)<\/a>/g)]
-    .map(([, name, url, label]) => ({ name, url, label }));
-}
+test('the portfolio page, home page, footer and llms.txt all list exactly portfolio.json', () => {
+  const entries = (html, h) =>
+    [...html.matchAll(new RegExp(`<li>\\s*<${h}>([^<]+)</${h}>[\\s\\S]*?<a class="visit" href="([^"]+)">Visit ([^<]+)</a>`, 'g'))]
+      .map(([, name, url, label]) => ({ name, url, label }));
+  const want = portfolioJson.map((p) => ({ name: p.name, url: utmUrl(p.url), label: new URL(p.url).hostname }));
+  assert.deepEqual(entries(siteFile('portfolio.html'), 'h2'), want);
+  assert.deepEqual(entries(siteFile('index.html'), 'h3'), want);
+  assert.match(siteFile('index.html'), /<a class="more" href="\/portfolio.html">See the full portfolio<\/a>/);
 
-test('the product list is the same on products.html, the home page, llms.txt and contact.html', () => {
-  const products = productsPageList();
-  assert.ok(products.length >= 3, 'products.html lists at least LedgerMedic, Sprinklerly, GrantClose');
-  assert.deepEqual(products.map((p) => p.name), ['LedgerMedic', 'Sprinklerly', 'GrantClose']);
-  for (const p of products) {
-    // The link goes to the product's own apex over https, and the label is that domain.
-    assert.equal(p.url, `https://${p.label}`, p.name);
-    assert.match(p.label, /^[a-z0-9-]+\.[a-z]+$/, p.name);
-  }
-
-  const index = siteFile('index.html');
-  const homeCards = [...index.matchAll(/<div class="card">\s*<h3>([^<]+)<\/h3>[\s\S]*?<a class="visit" href="([^"]+)">Visit ([^<]+)<\/a>/g)]
-    .map(([, name, url, label]) => ({ name, url, label }));
-  assert.deepEqual(homeCards, products);
-
-  const count = NUMBER_WORDS[products.length];
-  assert.match(index, new RegExp(`<a href="products.html">See all ${count} products</a>`));
-  assert.doesNotMatch(index, /See both products/);
-  const productsHtml = siteFile('products.html');
-  const Count = count[0].toUpperCase() + count.slice(1);
-  assert.match(productsHtml, new RegExp(`<p class="lede">${Count} products, all live, all maintained.</p>`));
-  for (const p of products) assert.match(productsHtml, new RegExp(`<meta name="description" content="[^"]*${p.name}`));
+  const names = [...footer.matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)]
+    .filter(([, href]) => href.includes('utm_medium=portfolio'))
+    .map(([, href, name]) => ({ name, url: href }));
+  assert.deepEqual(names, portfolioJson.map((p) => ({ name: p.name, url: utmUrl(p.url) })));
 
   const llms = siteFile('llms.txt');
   const llmsProducts = [...llms.matchAll(/^- \[([^\]]+)\]\((https:\/\/[^)]+)\): /gm)]
     .filter(([, , url]) => !url.startsWith('https://fsventuresllc.com'))
     .map(([, name, url]) => ({ name, url }));
-  assert.deepEqual(llmsProducts, products.map(({ name, url }) => ({ name, url })));
+  assert.deepEqual(llmsProducts, portfolioJson.map(({ name, url }) => ({ name, url })));
+});
 
-  const contact = siteFile('contact.html');
-  for (const p of products) assert.match(contact, new RegExp(p.name), `contact.html names ${p.name}`);
+test('products.html is retired: no page links to it (Render redirects it to /portfolio.html)', () => {
+  assert.ok(!existsSync(join(realPages, 'products.html')));
+  for (const name of ['index.html', 'portfolio.html', 'contact.html', '404.html', 'sitemap.xml', 'llms.txt']) {
+    assert.doesNotMatch(siteFile(name), /products\.html/, name);
+  }
 });
 
 test('no page advertises an unlaunched product', () => {
-  for (const name of ['index.html', 'products.html', 'llms.txt', 'contact.html']) {
+  for (const name of ['index.html', 'portfolio.html', 'llms.txt', 'contact.html']) {
     assert.doesNotMatch(siteFile(name), /coming soon|launching soon/i, name);
   }
 });

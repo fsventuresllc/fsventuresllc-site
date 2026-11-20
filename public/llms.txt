@@ -4,14 +4,16 @@
 
 ## Products
 
-- [LedgerMedic](https://ledgermedic.com): software for keeping your books clean and your ledger honest, for small businesses that want accurate bookkeeping without a full-time accountant.
-- [Sprinklerly](https://sprinklerly.com): software for running and scheduling irrigation and sprinkler service work, including jobs, routes and customers.
-- [GrantClose](https://grantclose.com): post-award grant tracking for small nonprofits: upload an award letter, confirm the reporting schedule it contains, give every deadline an owner, keep the evidence next to it, and export a closeout packet when the award ends.
-
+- [LedgerMedic](https://ledgermedic.com): Finds and fixes costly QuickBooks Online errors, such as stuck Undeposited Funds and customer payments counted twice.
+- [Sprinklerly](https://sprinklerly.com): Operations software for irrigation and sprinkler contractors: scheduling, dispatch, routes, work orders and backflow compliance.
+- [GrantClose](https://grantclose.com): Post-award grant tracking for small nonprofits: every reporting deadline with an owner, the evidence beside it, and a closeout packet at the end.
+- [GigDriverProfit](https://gigdriverprofit.com): Shows Android gig-delivery drivers the true profit per hour of each offer the moment it arrives.
+- [SPCC Plan Builder](https://spccbuilder.com): Tells small facilities whether the EPA's SPCC rule applies to them, then builds a self-certified Tier I plan with review reminders.
+- [Condo Records Portal](https://condorecordsportal.com): An official-records portal for Florida condo associations, with the posting checklist and request deadlines the statute requires.
 ## Company
 
 - [About](https://fsventuresllc.com/): who we are and what we have shipped
-- [Products](https://fsventuresllc.com/products.html): all three live products
+- [Portfolio](https://fsventuresllc.com/portfolio.html): every live product
 - [Contact](https://fsventuresllc.com/contact.html): hello@fsventuresllc.com · Minnetonka, MN 55305, United States
 
 ## Legal
