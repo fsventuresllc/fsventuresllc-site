@@ -258,9 +258,14 @@ test('validate rejects bad rich fields and missing asset files', () => {
   for (const [extra, re] of bad) assert.throws(() => validate([{ ...base, ...extra }], repoRoot), re, JSON.stringify(extra));
 });
 
-test('sticker and hero SVGs are self-contained (no script, style, external refs) so the CSP holds', () => {
+test('sticker, hero and founder SVGs are self-contained (no script, style, external refs) so the CSP holds', () => {
   const dir = join(realPages, 'assets');
-  const svgs = ['hero.svg', 'logo-mark.svg', ...readdirSync(join(dir, 'stickers')).map((f) => `stickers/${f}`)];
+  const svgs = [
+    'hero.svg',
+    'logo-mark.svg',
+    ...readdirSync(join(dir, 'stickers')).map((f) => `stickers/${f}`),
+    ...readdirSync(join(dir, 'founders')).map((f) => `founders/${f}`),
+  ];
   for (const f of svgs) {
     const svg = readFileSync(join(dir, f), 'utf8');
     assert.doesNotMatch(svg, /<script|<style|style=|<image|href="http|xlink:href/i, f);
@@ -279,4 +284,51 @@ test('no page advertises an unlaunched product', () => {
   for (const name of ['index.html', 'portfolio.html', 'llms.txt', 'contact.html']) {
     assert.doesNotMatch(siteFile(name), /coming soon|launching soon/i, name);
   }
+});
+
+// cs-017: the company has its own page with the founders; nothing links to the old /#company anchor.
+test('company.html is a sitemap page with the shared header and footer, and the nav links to it', () => {
+  const html = siteFile('company.html');
+  assert.ok(html.includes(header), 'company.html: header');
+  assert.ok(html.includes(footer), 'company.html: footer');
+  assert.match(siteFile('sitemap.xml'), /<loc>https:\/\/fsventuresllc\.com\/company\.html<\/loc>/);
+  assert.match(header, /<a href="\/company\.html">Company<\/a>/);
+  assert.match(footer, /<a href="\/company\.html">Company<\/a>/);
+  assert.match(html, /<body data-page="company">/);
+  assert.match(siteFile('llms.txt'), /^- \[Company\]\(https:\/\/fsventuresllc\.com\/company\.html\): /m);
+});
+
+test('no page or partial links to /#company', () => {
+  const pages = readdirSync(realPages).filter((f) => /\.(html|txt|xml)$/.test(f));
+  for (const name of pages) assert.doesNotMatch(siteFile(name), /href="\/?#company"|\/#company/, name);
+  for (const [name, html] of [['header.html', header], ['footer.html', footer]]) {
+    assert.doesNotMatch(html, /#company/, name);
+  }
+});
+
+test('company.html carries both founders, their portraits, the legal facts and founder JSON-LD', () => {
+  const html = siteFile('company.html');
+  for (const [name, file] of [['Michael Schnapf', 'michael'], ['Todd Frostad', 'todd']]) {
+    assert.match(html, new RegExp(`<h3>${name}</h3>`));
+    assert.match(html, new RegExp(`<img class="founder-portrait" src="/assets/founders/${file}\\.svg" width="200" height="200" alt="Illustration of ${name}">`));
+    assert.ok(existsSync(join(realPages, 'assets', 'founders', `${file}.svg`)), file);
+    assert.match(readFileSync(join(realPages, 'assets', 'founders', `${file}.svg`), 'utf8'), new RegExp(`aria-label="Illustration of ${name}"`));
+  }
+  for (const fact of ['F&amp;S VENTURES LLC', 'Delaware limited liability company', 'Minnetonka, MN 55305', 'mailto:hello@fsventuresllc.com']) {
+    assert.ok(html.includes(fact), fact);
+  }
+  const ld = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+  assert.equal(ld['@type'], 'Organization');
+  assert.deepEqual(ld.founder.map((f) => f.name), ['Michael Schnapf', 'Todd Frostad']);
+  assert.equal((html.match(/<h1\b/g) || []).length, 1);
+  // CSP default-src 'self': no inline script other than JSON-LD, no inline style.
+  assert.doesNotMatch(html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/, ''), /<script|<style|style="/i);
+});
+
+test('the home page keeps a short company teaser linking to /company.html and its Organization JSON-LD', () => {
+  const html = siteFile('index.html');
+  assert.match(html, /<a class="more" href="\/company\.html">Meet the founders<\/a>/);
+  const ld = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+  assert.equal(ld.name, 'F&S VENTURES LLC');
+  assert.equal(ld.founder, undefined);
 });
