@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160" role="img" aria-label="Sticker: an oil drum with a drip and a safety shield">
+<defs><filter id="d" x="-20%" y="-20%" width="140%" height="150%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="4" stdDeviation="3.5" flood-color="#152039" flood-opacity="0.24"/></filter></defs>
+<g filter="url(#d)" fill="#ffffff"><rect x="18" y="10" width="96" height="138" rx="26"/><path d="M118 70 L146 78 V100 C146 118 134 130 118 137 C102 130 90 118 90 100 V78 Z" stroke="#ffffff" stroke-width="14" stroke-linejoin="round"/></g>
+<g stroke="#152039" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<path d="M30 30 C30 22 102 22 102 30 V128 C102 136 30 136 30 128 Z" fill="#ff8a3d"/>
+<ellipse cx="66" cy="30" rx="36" ry="8" fill="#ffb27a"/>
+<circle cx="84" cy="29" r="3.5" fill="#152039" stroke-width="0"/>
+<path d="M30 62 C30 70 102 70 102 62 M30 98 C30 106 102 106 102 98" fill="none"/>
+<path d="M58 72 C58 72 48 84 48 90 A10 10 0 0 0 68 90 C68 84 58 72 58 72 Z" fill="#152039" stroke-width="0"/>
+<path d="M118 72 L142 79 V98 C142 113 132 124 118 131 C104 124 94 113 94 98 V79 Z" fill="#22b893"/>
+<path d="M107 100 L115 108 L130 91" fill="none" stroke="#ffffff" stroke-width="5"/>
+</g>
+</svg>

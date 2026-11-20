@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160" role="img" aria-label="Sticker: a sprinkler head spraying water over grass">
+<defs><filter id="d" x="-20%" y="-20%" width="140%" height="150%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="4" stdDeviation="3.5" flood-color="#152039" flood-opacity="0.24"/></filter></defs>
+<g filter="url(#d)" fill="#ffffff"><circle cx="80" cy="80" r="68"/></g>
+<g stroke="#152039" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<path d="M22 118 C40 104 120 104 138 118 C134 128 112 136 80 136 C48 136 26 128 22 118 Z" fill="#22b893"/>
+<path d="M44 112 L48 102 M58 109 L60 99 M100 109 L98 99 M114 112 L110 102" fill="none" stroke-width="3"/>
+<rect x="70" y="80" width="20" height="32" rx="3" fill="#9aa6c4"/>
+<rect x="64" y="72" width="32" height="12" rx="4" fill="#3247c8"/>
+<path d="M80 72 V64" fill="none"/>
+<path d="M76 62 C66 44 48 36 30 38" fill="none" stroke="#3aa0ff" stroke-width="5"/>
+<path d="M84 62 C94 44 112 36 130 38" fill="none" stroke="#3aa0ff" stroke-width="5"/>
+<path d="M80 60 C80 46 80 34 80 24" fill="none" stroke="#3aa0ff" stroke-width="5"/>
+</g>
+<g fill="#3aa0ff" stroke="#152039" stroke-width="3" stroke-linejoin="round">
+<path d="M30 52 C30 52 24 60 24 64 A6 6 0 0 0 36 64 C36 60 30 52 30 52 Z"/>
+<path d="M130 52 C130 52 124 60 124 64 A6 6 0 0 0 136 64 C136 60 130 52 130 52 Z"/>
+<path d="M54 58 C54 58 50 63 50 66 A4 4 0 0 0 58 66 C58 63 54 58 54 58 Z"/>
+<path d="M106 58 C106 58 102 63 102 66 A4 4 0 0 0 110 66 C110 63 106 58 106 58 Z"/>
+</g>
+</svg>

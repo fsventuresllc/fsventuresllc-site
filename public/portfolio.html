@@ -12,75 +12,183 @@
 <!-- site-header:start -->
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="/">F&amp;S VENTURES LLC</a>
-    <nav>
+    <a class="brand" href="/" aria-label="F&amp;S VENTURES LLC, home">
+      <svg class="brand-mark" viewBox="0 0 40 40" width="36" height="36" aria-hidden="true" focusable="false"><rect x="1" y="1" width="38" height="38" rx="11" fill="#3247c8"/><path d="M11 29 V19 M20 29 V13 M29 29 V22" stroke="#ffffff" stroke-width="5" stroke-linecap="round" fill="none"/><circle cx="29" cy="12" r="4" fill="#ffc23d"/></svg>
+      <span class="brand-name">F&amp;S Ventures <span class="brand-llc">LLC</span></span>
+    </a>
+    <input class="nav-toggle" type="checkbox" id="nav-toggle" aria-label="Show the menu">
+    <label class="nav-button" for="nav-toggle" aria-hidden="true"><span></span></label>
+    <nav class="site-nav" aria-label="Main">
       <a href="/">Home</a>
       <a href="/portfolio.html">Portfolio</a>
+      <a href="/#company">Company</a>
       <a href="/contact.html">Contact</a>
+      <a class="button nav-cta" href="mailto:hello@fsventuresllc.com">Email us</a>
     </nav>
   </div>
 </header>
 <!-- site-header:end -->
 
-<main>
-  <h1>Portfolio</h1>
-  <p class="lede">The products we build and run today. Each one is live and maintained.</p>
+<main class="bands">
+  <section class="page-head">
+    <div class="container">
+      <p class="eyebrow">Portfolio</p>
+      <h1>Products we build and run</h1>
+      <p class="lede">Each product does one job for one kind of business. Every one listed here is live, has its own site, and is maintained by F&amp;S Ventures.</p>
+    </div>
+  </section>
 
-  <!-- portfolio-list:start -->
-  <ul class="product-list">
-    <li>
-      <h2>LedgerMedic</h2>
-      <p>Finds and fixes costly QuickBooks Online errors, such as stuck Undeposited Funds and customer payments counted twice.</p>
-      <a class="visit" href="https://ledgermedic.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit ledgermedic.com</a>
-    </li>
-    <li>
-      <h2>Sprinklerly</h2>
-      <p>Operations software for irrigation and sprinkler contractors: scheduling, dispatch, routes, work orders and backflow compliance.</p>
-      <a class="visit" href="https://sprinklerly.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit sprinklerly.com</a>
-    </li>
-    <li>
-      <h2>GrantClose</h2>
-      <p>Post-award grant tracking for small nonprofits: every reporting deadline with an owner, the evidence beside it, and a closeout packet at the end.</p>
-      <a class="visit" href="https://grantclose.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit grantclose.com</a>
-    </li>
-    <li>
-      <h2>GigDriverProfit</h2>
-      <p>Shows Android gig-delivery drivers the true profit per hour of each offer the moment it arrives.</p>
-      <a class="visit" href="https://gigdriverprofit.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit gigdriverprofit.com</a>
-    </li>
-    <li>
-      <h2>SPCC Plan Builder</h2>
-      <p>Tells small facilities whether the EPA's SPCC rule applies to them, then builds a self-certified Tier I plan with review reminders.</p>
-      <a class="visit" href="https://spccbuilder.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit spccbuilder.com</a>
-    </li>
-    <li>
-      <h2>Condo Records Portal</h2>
-      <p>An official-records portal for Florida condo associations, with the posting checklist and request deadlines the statute requires.</p>
-      <a class="visit" href="https://condorecordsportal.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit condorecordsportal.com</a>
-    </li>
-  </ul>
-  <!-- portfolio-list:end -->
+  <section class="portfolio-band" aria-label="Products">
+    <div class="container">
+      <!-- portfolio-list:start -->
+      <ul class="product-list">
+        <li class="product" id="ledgermedic">
+          <div class="product-text">
+            <div class="product-title">
+              <img class="sticker" src="/assets/stickers/ledgermedic.svg" alt="" width="72" height="72">
+              <h2>LedgerMedic</h2>
+            </div>
+            <p class="product-desc">For small businesses, and the accountants who look after their QuickBooks Online books. Four mistakes quietly throw the books off: payments stuck in Undeposited Funds, Unapplied Cash Payment Income, deposits that count a payment twice, and credit card payments entered twice. LedgerMedic finds all four, explains each one in plain English, and fixes the first three at the source transaction after you preview the change.</p>
+            <ul class="highlights">
+              <li>Scans every QuickBooks Online company on your Intuit account</li>
+              <li>Read-only until you approve a fix, and every fix is previewed first</li>
+              <li>Free to connect and scan</li>
+            </ul>
+            <a class="visit" href="https://ledgermedic.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit ledgermedic.com</a>
+          </div>
+          <figure class="shot">
+            <img src="/assets/portfolio/ledgermedic.webp" width="1280" height="800" loading="lazy" decoding="async" alt="The LedgerMedic homepage at ledgermedic.com">
+          </figure>
+        </li>
+        <li class="product" id="sprinklerly">
+          <div class="product-text">
+            <div class="product-title">
+              <img class="sticker" src="/assets/stickers/sprinklerly.svg" alt="" width="72" height="72">
+              <h2>Sprinklerly</h2>
+            </div>
+            <p class="product-desc">For irrigation and sprinkler contractors who are running the business on paper routes, group texts and spreadsheets. Sprinklerly puts customers, service-area booking, route planning, dispatch, work orders and backflow-test compliance in one place built for the trade, so nothing falls through the cracks between the office and the truck.</p>
+            <ul class="highlights">
+              <li>Customers book into open arrival windows on the service days you plan</li>
+              <li>Route planning with real drive times between stops</li>
+              <li>Backflow tests and technician certifications tracked with the paperwork trail</li>
+            </ul>
+            <a class="visit" href="https://sprinklerly.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit sprinklerly.com</a>
+          </div>
+          <figure class="shot">
+            <img src="/assets/portfolio/sprinklerly.webp" width="1280" height="800" loading="lazy" decoding="async" alt="The Sprinklerly homepage at sprinklerly.com">
+          </figure>
+        </li>
+        <li class="product" id="grantclose">
+          <div class="product-text">
+            <div class="product-title">
+              <img class="sticker" src="/assets/stickers/grantclose.svg" alt="" width="72" height="72">
+              <h2>GrantClose</h2>
+            </div>
+            <p class="product-desc">For the executive director, development lead or program manager at a small nonprofit holding restricted grants. The reporting schedule usually lives in a PDF in someone's inbox. GrantClose reads the award letter, lets you confirm the schedule it contains, gives every deadline an owner with the evidence beside it, and exports a closeout packet when the award ends.</p>
+            <ul class="highlights">
+              <li>Finds the reports and dates in an award letter and shows the sentence each came from</li>
+              <li>Email reminders at 30, 14, 7, 1 and 0 days before each due date</li>
+              <li>Free for one active award, with every feature included</li>
+            </ul>
+            <a class="visit" href="https://grantclose.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit grantclose.com</a>
+          </div>
+          <figure class="shot">
+            <img src="/assets/portfolio/grantclose.webp" width="1280" height="800" loading="lazy" decoding="async" alt="The GrantClose homepage at grantclose.com">
+          </figure>
+        </li>
+        <li class="product" id="gigdriverprofit">
+          <div class="product-text">
+            <div class="product-title">
+              <img class="sticker" src="/assets/stickers/gigdriverprofit.svg" alt="" width="72" height="72">
+              <h2>GigDriverProfit</h2>
+            </div>
+            <p class="product-desc">For gig-delivery drivers on Android who want to know whether an offer is worth taking before they accept it. GigDriverProfit reads the offer notification the moment it lands, scores it by real net profit per hour after gas and wear, and hands you back to the platform's own app to decide.</p>
+            <ul class="highlights">
+              <li>Profit per hour counts fuel, wear and deadhead driving</li>
+              <li>Read-only: never asks for a platform login and never taps anything for you</li>
+              <li>Free plan available on Google Play</li>
+            </ul>
+            <a class="visit" href="https://gigdriverprofit.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit gigdriverprofit.com</a>
+          </div>
+          <figure class="shot">
+            <img src="/assets/portfolio/gigdriverprofit.webp" width="1280" height="800" loading="lazy" decoding="async" alt="The GigDriverProfit homepage at gigdriverprofit.com">
+          </figure>
+        </li>
+        <li class="product" id="spcc-selfcert-builder">
+          <div class="product-text">
+            <div class="product-title">
+              <img class="sticker" src="/assets/stickers/spcc-selfcert-builder.svg" alt="" width="72" height="72">
+              <h2>SPCC Plan Builder</h2>
+            </div>
+            <p class="product-desc">For owners of small sites that store oil above ground. The federal SPCC rule (40 CFR Part 112) requires a written spill plan at many of them, and small facilities can often write and sign their own. SPCC Plan Builder works out whether the rule applies and whether you can self-certify as Tier I, assembles the plan from your answers, and reminds you when it is due for review.</p>
+            <ul class="highlights">
+              <li>A plain applicability verdict with the federal citation beside every answer</li>
+              <li>Secondary containment math with the working shown</li>
+              <li>Free to build and review on screen; you pay only for the clean export</li>
+            </ul>
+            <a class="visit" href="https://spccbuilder.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit spccbuilder.com</a>
+          </div>
+          <figure class="shot">
+            <img src="/assets/portfolio/spcc-selfcert-builder.webp" width="1280" height="800" loading="lazy" decoding="async" alt="The SPCC Plan Builder homepage at spccbuilder.com">
+          </figure>
+        </li>
+        <li class="product" id="fl-condo-records-compliance">
+          <div class="product-text">
+            <div class="product-title">
+              <img class="sticker" src="/assets/stickers/fl-condo-records-compliance.svg" alt="" width="72" height="72">
+              <h2>Condo Records Portal</h2>
+            </div>
+            <p class="product-desc">For Florida condominium boards managing 25 or more units, which since January 1, 2026 must post their official records on a website or app. Condo Records Portal gives owners the login-protected records section the statute describes, and keeps the 30-day posting clock and the 10-working-day records-request clock in one place.</p>
+            <ul class="highlights">
+              <li>A posting board for every record listed in Fla. Stat. 718.111(12)(g)2</li>
+              <li>A request desk that counts working days and sends reminders</li>
+              <li>Flags protected information, such as Social Security numbers, in uploads so you can redact before posting</li>
+            </ul>
+            <a class="visit" href="https://condorecordsportal.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit condorecordsportal.com</a>
+          </div>
+          <figure class="shot">
+            <img src="/assets/portfolio/fl-condo-records-compliance.webp" width="1280" height="800" loading="lazy" decoding="async" alt="The Condo Records Portal homepage at condorecordsportal.com">
+          </figure>
+        </li>
+      </ul>
+      <!-- portfolio-list:end -->
+    </div>
+  </section>
 
-  <p>
-    Questions about any of our products, or interested in what we&rsquo;re building next? Reach us on
-    the <a href="contact.html">contact page</a>.
-  </p>
+  <section class="cta-band" aria-labelledby="contact-title">
+    <div class="container">
+      <div class="cta-box">
+        <div>
+          <h2 id="contact-title">Questions about a product?</h2>
+          <p>Questions about any of our products, or interested in what we&rsquo;re building next? Email <a href="mailto:hello@fsventuresllc.com">hello@fsventuresllc.com</a> or see the contact page.</p>
+        </div>
+        <div class="button-row">
+          <a class="button sun" href="mailto:hello@fsventuresllc.com">Email us</a>
+          <a class="button secondary" href="/contact.html">Contact page</a>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
 
 <!-- site-footer:start -->
 <footer class="site-footer">
   <div class="wrap">
-    <p><span class="legal-name">F&amp;S VENTURES LLC</span> &mdash; a Delaware limited liability company.<br>
-    Minnetonka, MN 55305 &middot; <a href="mailto:hello@fsventuresllc.com">hello@fsventuresllc.com</a></p>
-    <nav>
+    <div class="footer-brand">
+      <p class="footer-logo"><img src="/assets/logo-mark.svg" alt="" width="32" height="32"> <span class="legal-name">F&amp;S VENTURES LLC</span></p>
+      <p>A Delaware limited liability company.<br>
+      Minnetonka, MN 55305 &middot; <a href="mailto:hello@fsventuresllc.com">hello@fsventuresllc.com</a></p>
+    </div>
+    <nav class="footer-col" aria-label="Company">
+      <p class="footer-heading">Company</p>
       <a href="/">Home</a>
       <a href="/portfolio.html">Portfolio</a>
       <a href="/contact.html">Contact</a>
       <a href="/privacy.html">Privacy Policy</a>
       <a href="/terms.html">Terms of Service</a>
     </nav>
-    <nav class="footer-products" aria-label="Our products">
-      <span>Our products:</span>
+    <nav class="footer-col footer-products" aria-label="Our products">
+      <p class="footer-heading">Our products</p>
       <!-- portfolio-names:start -->
       <a href="https://ledgermedic.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">LedgerMedic</a>
       <a href="https://sprinklerly.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Sprinklerly</a>

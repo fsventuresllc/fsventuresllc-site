@@ -84,3 +84,17 @@ paused, is on it automatically, and the night run opens a `portfolio-sync` PR wh
 `node scripts/marketing/build-portfolio.mjs` stamps it into `/portfolio.html`, the home Portfolio
 section, the footer's product names and `llms.txt`; CI fails if any of them drift. Never hand-edit
 those lists. `/products.html` is retired: a Render redirect rule sends it to `/portfolio.html`.
+
+Rich entries (cs-016): each product may also carry `description` (2-3 sentences), `highlights` (up to 5
+bullets), `screenshot` (`/assets/portfolio/<slug>.webp`) and `sticker` (`/assets/stickers/<slug>.svg`).
+`/portfolio.html` shows them; the home page shows a compact card (sticker, name, blurb). An entry without
+them falls back to the blurb with no images. Screenshots are the product's live homepage at 1280x800,
+WebP under 150 KB: `node scripts/marketing/capture-screenshots.mjs --only=<slug>` (or `--missing`)
+re-captures them (needs Playwright locally; never runs in CI). Sticker SVGs are hand-drawn, use
+presentation attributes only (no `<style>`, no external refs) so the CSP holds, and are tested for it.
+
+## Visual identity (cs-016)
+
+Colour, type and spacing tokens live at the top of `public/style.css` (contrast ratios noted beside
+them). The header is a CSS-only menu (no script under the CSP). Illustrations are self-hosted SVGs in
+`public/assets/` (`hero.svg`, `logo-mark.svg`, `stickers/`).

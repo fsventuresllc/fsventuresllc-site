@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>F&amp;S VENTURES LLC</title>
 <meta name="description" content="F&amp;S Ventures LLC builds and operates small, focused software products for businesses.">
+<meta name="theme-color" content="#152039">
 <link rel="canonical" href="https://fsventuresllc.com/">
 <link rel="stylesheet" href="style.css">
 <script type="application/ld+json">
@@ -28,96 +29,215 @@
 <!-- site-header:start -->
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="/">F&amp;S VENTURES LLC</a>
-    <nav>
+    <a class="brand" href="/" aria-label="F&amp;S VENTURES LLC, home">
+      <svg class="brand-mark" viewBox="0 0 40 40" width="36" height="36" aria-hidden="true" focusable="false"><rect x="1" y="1" width="38" height="38" rx="11" fill="#3247c8"/><path d="M11 29 V19 M20 29 V13 M29 29 V22" stroke="#ffffff" stroke-width="5" stroke-linecap="round" fill="none"/><circle cx="29" cy="12" r="4" fill="#ffc23d"/></svg>
+      <span class="brand-name">F&amp;S Ventures <span class="brand-llc">LLC</span></span>
+    </a>
+    <input class="nav-toggle" type="checkbox" id="nav-toggle" aria-label="Show the menu">
+    <label class="nav-button" for="nav-toggle" aria-hidden="true"><span></span></label>
+    <nav class="site-nav" aria-label="Main">
       <a href="/">Home</a>
       <a href="/portfolio.html">Portfolio</a>
+      <a href="/#company">Company</a>
       <a href="/contact.html">Contact</a>
+      <a class="button nav-cta" href="mailto:hello@fsventuresllc.com">Email us</a>
     </nav>
   </div>
 </header>
 <!-- site-header:end -->
 
-<main>
-  <section class="hero">
-    <p class="eyebrow">Software company &middot; Minnetonka, MN</p>
-    <h1>We build and run small, focused software products for businesses.</h1>
-    <p class="lede">Each product does one job for one kind of business, and each one is maintained for the long haul rather than left to rot after launch.</p>
+<main class="bands">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container">
+      <div>
+        <p class="eyebrow">Software company &middot; Minnetonka, MN</p>
+        <h1 id="hero-title">Small, focused software that does <span class="accent">one job well</span> for businesses.</h1>
+        <p class="lede">F&amp;S Ventures builds and runs a portfolio of focused B2B products. Each one solves one recurring problem for one kind of business, and each one is maintained for the long haul rather than left to rot after launch.</p>
+        <div class="button-row">
+          <a class="button" href="/portfolio.html">See our products</a>
+          <a class="button secondary" href="/contact.html">Get in touch</a>
+        </div>
+        <ul class="hero-facts">
+          <li>Delaware limited liability company</li>
+          <li>Every product live and maintained</li>
+        </ul>
+      </div>
+      <figure class="hero-art">
+        <img src="/assets/hero.svg" width="560" height="480" alt="Sticker-style illustration of a product dashboard surrounded by a gear, a check badge and a calendar">
+      </figure>
+    </div>
   </section>
 
-  <section>
-    <h2>About F&amp;S Ventures</h2>
-    <p>
-      F&amp;S Ventures LLC is a Delaware limited liability company based in Minnetonka, Minnesota.
-      We design, build, and run a small portfolio of software products, each aimed at a specific,
-      recurring problem a business runs into. We keep our products narrow on purpose.
-    </p>
+  <section class="band tint" aria-labelledby="what-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">What we do</p>
+        <h2 id="what-title">We find a narrow problem, build the tool for it, and keep running it.</h2>
+        <p>No sprawling platforms. Each product is aimed at a specific, recurring problem a business runs into, from bookkeeping errors to compliance deadlines.</p>
+      </div>
+      <ul class="cards">
+        <li class="card">
+          <img src="/assets/stickers/focus.svg" width="72" height="72" alt="">
+          <h3>Pick one job</h3>
+          <p>We start from one recurring problem for one kind of business, and keep the product narrow on purpose.</p>
+        </li>
+        <li class="card">
+          <img src="/assets/stickers/build.svg" width="72" height="72" alt="">
+          <h3>Build it properly</h3>
+          <p>Each product is designed and built in-house, with its own website, its own privacy policy and terms, and a real company behind it.</p>
+        </li>
+        <li class="card">
+          <img src="/assets/stickers/run.svg" width="72" height="72" alt="">
+          <h3>Run it for the long haul</h3>
+          <p>Launch is the start, not the finish. We keep every product monitored, updated and supported after it ships.</p>
+        </li>
+      </ul>
+    </div>
   </section>
 
-  <section id="portfolio">
-    <h2>Portfolio</h2>
-    <p class="section-note">The products we run today.</p>
-    <!-- portfolio-list:start -->
-    <ul class="product-list">
-      <li>
-        <h3>LedgerMedic</h3>
-        <p>Finds and fixes costly QuickBooks Online errors, such as stuck Undeposited Funds and customer payments counted twice.</p>
-        <a class="visit" href="https://ledgermedic.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit ledgermedic.com</a>
-      </li>
-      <li>
-        <h3>Sprinklerly</h3>
-        <p>Operations software for irrigation and sprinkler contractors: scheduling, dispatch, routes, work orders and backflow compliance.</p>
-        <a class="visit" href="https://sprinklerly.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit sprinklerly.com</a>
-      </li>
-      <li>
-        <h3>GrantClose</h3>
-        <p>Post-award grant tracking for small nonprofits: every reporting deadline with an owner, the evidence beside it, and a closeout packet at the end.</p>
-        <a class="visit" href="https://grantclose.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit grantclose.com</a>
-      </li>
-      <li>
-        <h3>GigDriverProfit</h3>
-        <p>Shows Android gig-delivery drivers the true profit per hour of each offer the moment it arrives.</p>
-        <a class="visit" href="https://gigdriverprofit.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit gigdriverprofit.com</a>
-      </li>
-      <li>
-        <h3>SPCC Plan Builder</h3>
-        <p>Tells small facilities whether the EPA's SPCC rule applies to them, then builds a self-certified Tier I plan with review reminders.</p>
-        <a class="visit" href="https://spccbuilder.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit spccbuilder.com</a>
-      </li>
-      <li>
-        <h3>Condo Records Portal</h3>
-        <p>An official-records portal for Florida condo associations, with the posting checklist and request deadlines the statute requires.</p>
-        <a class="visit" href="https://condorecordsportal.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit condorecordsportal.com</a>
-      </li>
-    </ul>
-    <!-- portfolio-list:end -->
-    <p><a class="more" href="/portfolio.html">See the full portfolio</a></p>
+  <section class="band" aria-labelledby="how-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">How we work</p>
+        <h2 id="how-title">The principles behind every product</h2>
+      </div>
+      <ol class="principles">
+        <li>
+          <h3>Plain English</h3>
+          <p>Every screen explains what it found and why, without jargon. If a rule or a regulation is involved, we show where it comes from.</p>
+        </li>
+        <li>
+          <h3>You stay in control</h3>
+          <p>Our products show you what they found and what they would change, and leave the final decision with you.</p>
+        </li>
+        <li>
+          <h3>Honest about limits</h3>
+          <p>Each product says clearly what it does not do, so nobody mistakes a tool for a lawyer or an engineer.</p>
+        </li>
+        <li>
+          <h3>Free to try</h3>
+          <p>Every product has a way to start without paying, so you can see it work on your own situation first.</p>
+        </li>
+      </ol>
+    </div>
   </section>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>
-      Questions about F&amp;S Ventures LLC, one of our products, or a partnership? Email
-      <a href="mailto:hello@fsventuresllc.com">hello@fsventuresllc.com</a>, or see the
-      <a href="contact.html">contact page</a>.
-    </p>
+  <section id="portfolio" class="band tint" aria-labelledby="portfolio-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Portfolio</p>
+        <h2 id="portfolio-title">The products we run today</h2>
+        <p>Each one is live, has its own site, and is maintained by us.</p>
+      </div>
+      <!-- portfolio-list:start -->
+      <ul class="product-grid">
+        <li class="product-card">
+          <img class="sticker" src="/assets/stickers/ledgermedic.svg" alt="" width="56" height="56">
+          <h3>LedgerMedic</h3>
+          <p>Finds and fixes costly QuickBooks Online errors, such as stuck Undeposited Funds and customer payments counted twice.</p>
+          <a class="visit" href="https://ledgermedic.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit ledgermedic.com</a>
+        </li>
+        <li class="product-card">
+          <img class="sticker" src="/assets/stickers/sprinklerly.svg" alt="" width="56" height="56">
+          <h3>Sprinklerly</h3>
+          <p>Operations software for irrigation and sprinkler contractors: scheduling, dispatch, routes, work orders and backflow compliance.</p>
+          <a class="visit" href="https://sprinklerly.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit sprinklerly.com</a>
+        </li>
+        <li class="product-card">
+          <img class="sticker" src="/assets/stickers/grantclose.svg" alt="" width="56" height="56">
+          <h3>GrantClose</h3>
+          <p>Post-award grant tracking for small nonprofits: every reporting deadline with an owner, the evidence beside it, and a closeout packet at the end.</p>
+          <a class="visit" href="https://grantclose.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit grantclose.com</a>
+        </li>
+        <li class="product-card">
+          <img class="sticker" src="/assets/stickers/gigdriverprofit.svg" alt="" width="56" height="56">
+          <h3>GigDriverProfit</h3>
+          <p>Shows Android gig-delivery drivers the true profit per hour of each offer the moment it arrives.</p>
+          <a class="visit" href="https://gigdriverprofit.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit gigdriverprofit.com</a>
+        </li>
+        <li class="product-card">
+          <img class="sticker" src="/assets/stickers/spcc-selfcert-builder.svg" alt="" width="56" height="56">
+          <h3>SPCC Plan Builder</h3>
+          <p>Tells small facilities whether the EPA's SPCC rule applies to them, then builds a self-certified Tier I plan with review reminders.</p>
+          <a class="visit" href="https://spccbuilder.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit spccbuilder.com</a>
+        </li>
+        <li class="product-card">
+          <img class="sticker" src="/assets/stickers/fl-condo-records-compliance.svg" alt="" width="56" height="56">
+          <h3>Condo Records Portal</h3>
+          <p>An official-records portal for Florida condo associations, with the posting checklist and request deadlines the statute requires.</p>
+          <a class="visit" href="https://condorecordsportal.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Visit condorecordsportal.com</a>
+        </li>
+      </ul>
+      <!-- portfolio-list:end -->
+      <p><a class="more" href="/portfolio.html">See the full portfolio</a></p>
+    </div>
+  </section>
+
+  <section id="company" class="band" aria-labelledby="company-title">
+    <div class="container company-grid">
+      <div class="section-head">
+        <p class="eyebrow">Company</p>
+        <h2 id="company-title">About F&amp;S Ventures</h2>
+        <p>F&amp;S Ventures LLC is a Delaware limited liability company based in Minnetonka, Minnesota. We design, build, and run a small portfolio of software products, each aimed at a specific, recurring problem a business runs into.</p>
+        <p>We keep our products narrow on purpose, and we keep running them after launch.</p>
+      </div>
+      <div class="facts-card">
+        <dl class="facts">
+          <div>
+            <dt>Legal name</dt>
+            <dd>F&amp;S VENTURES LLC</dd>
+          </div>
+          <div>
+            <dt>Entity</dt>
+            <dd>Delaware limited liability company</dd>
+          </div>
+          <div>
+            <dt>Location</dt>
+            <dd>Minnetonka, MN 55305, United States</dd>
+          </div>
+          <div>
+            <dt>Email</dt>
+            <dd><a href="mailto:hello@fsventuresllc.com">hello@fsventuresllc.com</a></dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="cta-band" aria-labelledby="contact-title">
+    <div class="container">
+      <div class="cta-box">
+        <div>
+          <h2 id="contact-title">Questions, partnerships or press?</h2>
+          <p>Questions about F&amp;S Ventures LLC, one of our products, or a partnership? Email us at <a href="mailto:hello@fsventuresllc.com">hello@fsventuresllc.com</a>.</p>
+        </div>
+        <div class="button-row">
+          <a class="button sun" href="mailto:hello@fsventuresllc.com">Email us</a>
+          <a class="button secondary" href="/contact.html">Contact page</a>
+        </div>
+      </div>
+    </div>
   </section>
 </main>
 
 <!-- site-footer:start -->
 <footer class="site-footer">
   <div class="wrap">
-    <p><span class="legal-name">F&amp;S VENTURES LLC</span> &mdash; a Delaware limited liability company.<br>
-    Minnetonka, MN 55305 &middot; <a href="mailto:hello@fsventuresllc.com">hello@fsventuresllc.com</a></p>
-    <nav>
+    <div class="footer-brand">
+      <p class="footer-logo"><img src="/assets/logo-mark.svg" alt="" width="32" height="32"> <span class="legal-name">F&amp;S VENTURES LLC</span></p>
+      <p>A Delaware limited liability company.<br>
+      Minnetonka, MN 55305 &middot; <a href="mailto:hello@fsventuresllc.com">hello@fsventuresllc.com</a></p>
+    </div>
+    <nav class="footer-col" aria-label="Company">
+      <p class="footer-heading">Company</p>
       <a href="/">Home</a>
       <a href="/portfolio.html">Portfolio</a>
       <a href="/contact.html">Contact</a>
       <a href="/privacy.html">Privacy Policy</a>
       <a href="/terms.html">Terms of Service</a>
     </nav>
-    <nav class="footer-products" aria-label="Our products">
-      <span>Our products:</span>
+    <nav class="footer-col footer-products" aria-label="Our products">
+      <p class="footer-heading">Our products</p>
       <!-- portfolio-names:start -->
       <a href="https://ledgermedic.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">LedgerMedic</a>
       <a href="https://sprinklerly.com/?utm_source=fsventuresllc&amp;utm_medium=portfolio">Sprinklerly</a>

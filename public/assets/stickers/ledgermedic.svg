@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160" role="img" aria-label="Sticker: an open ledger with a first-aid badge">
+<defs><filter id="d" x="-20%" y="-20%" width="140%" height="150%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="4" stdDeviation="3.5" flood-color="#152039" flood-opacity="0.24"/></filter></defs>
+<g filter="url(#d)" fill="#ffffff"><rect x="9" y="27" width="142" height="106" rx="26"/><circle cx="119" cy="110" r="33"/></g>
+<g stroke="#152039" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<rect x="20" y="46" width="120" height="76" rx="9" fill="#3247c8"/>
+<path d="M80 50 C66 42 44 39 28 43 L28 112 C44 108 66 110 80 117 Z" fill="#fffaf0"/>
+<path d="M80 50 C94 42 116 39 132 43 L132 112 C116 108 94 110 80 117 Z" fill="#fffaf0"/>
+<path d="M80 50 V117" fill="none"/>
+<path d="M38 60 H68 M38 72 H66 M38 84 H62 M38 96 H58" fill="none" stroke-width="3.5" stroke="#9aa6c4"/>
+<path d="M92 60 H108 M92 72 H114 M92 84 H104" fill="none" stroke-width="3.5" stroke="#9aa6c4"/>
+<circle cx="119" cy="110" r="22" fill="#ff6b4a"/>
+<path d="M119 99 V121 M108 110 H130" fill="none" stroke="#ffffff" stroke-width="6"/>
+</g>
+</svg>

@@ -179,15 +179,17 @@ test('product headings on portfolio.html are h2 under the page h1', () => {
   const html = siteFile('portfolio.html');
   assert.doesNotMatch(html, /<h3\b/);
   for (const p of portfolioJson) assert.match(html, new RegExp(`<h2>${p.name}</h2>`));
+  assert.equal((html.match(/<h1\b/g) || []).length, 1);
 });
 
 test('the portfolio page, home page, footer and llms.txt all list exactly portfolio.json', () => {
   const entries = (html, h) =>
-    [...html.matchAll(new RegExp(`<li>\\s*<${h}>([^<]+)</${h}>[\\s\\S]*?<a class="visit" href="([^"]+)">Visit ([^<]+)</a>`, 'g'))]
+    [...html.matchAll(new RegExp(`<${h}>([^<]+)</${h}>[\\s\\S]*?<a class="visit" href="([^"]+)">Visit ([^<]+)</a>`, 'g'))]
       .map(([, name, url, label]) => ({ name, url, label }));
   const want = portfolioJson.map((p) => ({ name: p.name, url: utmUrl(p.url), label: new URL(p.url).hostname }));
-  assert.deepEqual(entries(siteFile('portfolio.html'), 'h2'), want);
-  assert.deepEqual(entries(siteFile('index.html'), 'h3'), want);
+  const list = (html) => html.slice(html.indexOf('<!-- portfolio-list:start -->'), html.indexOf('<!-- portfolio-list:end -->'));
+  assert.deepEqual(entries(list(siteFile('portfolio.html')), 'h2'), want);
+  assert.deepEqual(entries(list(siteFile('index.html')), 'h3'), want);
   assert.match(siteFile('index.html'), /<a class="more" href="\/portfolio.html">See the full portfolio<\/a>/);
 
   const names = [...footer.matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)]
@@ -200,6 +202,70 @@ test('the portfolio page, home page, footer and llms.txt all list exactly portfo
     .filter(([, , url]) => !url.startsWith('https://fsventuresllc.com'))
     .map(([, name, url]) => ({ name, url }));
   assert.deepEqual(llmsProducts, portfolioJson.map(({ name, url }) => ({ name, url })));
+});
+
+// cs-016: rich portfolio entries (description, highlights, screenshot, sticker), all optional.
+const { renderList, validate, imageSize } = await import('./build-portfolio.mjs');
+const repoRoot = join(here, '..', '..');
+
+test('every rich field in portfolio.json renders on /portfolio.html, with a lazy, sized, described screenshot', () => {
+  const html = siteFile('portfolio.html');
+  for (const p of portfolioJson) {
+    const esc = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+    if (p.description) assert.ok(html.includes(`<p class="product-desc">${esc(p.description)}</p>`), p.slug);
+    for (const h of p.highlights || []) assert.ok(html.includes(`<li>${esc(h)}</li>`), `${p.slug}: ${h}`);
+    if (p.sticker) assert.ok(html.includes(`<img class="sticker" src="${p.sticker}" alt="" width="72" height="72">`), p.slug);
+    if (p.screenshot) {
+      const img = html.match(new RegExp(`<img src="${p.screenshot}"[^>]*>`));
+      assert.ok(img, `${p.slug}: screenshot img`);
+      assert.match(img[0], /width="\d+" height="\d+" loading="lazy" decoding="async" alt="[^"]{10,}"/);
+    }
+  }
+});
+
+test('the six launched products all carry the rich fields, and each screenshot is a 1280x800 image under 150 KB', () => {
+  for (const p of portfolioJson) {
+    assert.ok(p.description && p.highlights?.length >= 3 && p.screenshot && p.sticker, p.slug);
+    const buf = readFileSync(join(realPages, p.screenshot));
+    assert.ok(buf.length < 150 * 1024, `${p.slug}: ${buf.length} bytes`);
+    assert.deepEqual(imageSize(buf), { width: 1280, height: 800 }, p.slug);
+  }
+});
+
+test('an entry without the new fields still renders: blurb, no images, no highlights', () => {
+  const [p] = validate([{ slug: 'x', name: 'X App', blurb: 'Does one thing.', url: 'https://x.example' }], repoRoot);
+  const rich = renderList([p], { heading: 'h2', rich: true });
+  assert.match(rich, /<li class="product no-shot" id="x">/);
+  assert.match(rich, /<p class="product-desc">Does one thing\.<\/p>/);
+  assert.doesNotMatch(rich, /<img|class="highlights"/);
+  const compact = renderList([p], { heading: 'h3', rich: false });
+  assert.match(compact, /<h3>X App<\/h3>\s*<p>Does one thing\.<\/p>/);
+  assert.doesNotMatch(compact, /<img/);
+});
+
+test('validate rejects bad rich fields and missing asset files', () => {
+  const base = { slug: 'x', name: 'X', blurb: 'B.', url: 'https://x.example' };
+  const bad = [
+    [{ highlights: 'one' }, /highlights/],
+    [{ highlights: ['a', ''] }, /highlights/],
+    [{ description: '' }, /description/],
+    [{ screenshot: 'https://cdn.example/x.webp' }, /screenshot must be a file under/],
+    [{ screenshot: '/assets/portfolio/../../x.webp' }, /screenshot must be a file under/],
+    [{ screenshot: '/assets/portfolio/nope.webp' }, /is not in public/],
+    [{ sticker: '/assets/stickers/x.png' }, /sticker must be a file under/],
+    [{ sticker: '/assets/stickers/nope.svg' }, /is not in public/],
+  ];
+  for (const [extra, re] of bad) assert.throws(() => validate([{ ...base, ...extra }], repoRoot), re, JSON.stringify(extra));
+});
+
+test('sticker and hero SVGs are self-contained (no script, style, external refs) so the CSP holds', () => {
+  const dir = join(realPages, 'assets');
+  const svgs = ['hero.svg', 'logo-mark.svg', ...readdirSync(join(dir, 'stickers')).map((f) => `stickers/${f}`)];
+  for (const f of svgs) {
+    const svg = readFileSync(join(dir, f), 'utf8');
+    assert.doesNotMatch(svg, /<script|<style|style=|<image|href="http|xlink:href/i, f);
+    assert.match(svg, /aria-label="[^"]+"/, f);
+  }
 });
 
 test('products.html is retired: no page links to it (Render redirects it to /portfolio.html)', () => {

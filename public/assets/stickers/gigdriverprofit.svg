@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160" role="img" aria-label="Sticker: a phone showing a profit score above a delivery car">
+<defs><filter id="d" x="-20%" y="-20%" width="140%" height="150%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="4" stdDeviation="3.5" flood-color="#152039" flood-opacity="0.24"/></filter></defs>
+<g filter="url(#d)" fill="#ffffff"><rect x="38" y="8" width="84" height="118" rx="24"/><rect x="8" y="88" width="144" height="62" rx="28"/></g>
+<g stroke="#152039" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<rect x="50" y="18" width="60" height="100" rx="10" fill="#152039"/>
+<rect x="56" y="28" width="48" height="74" rx="4" fill="#fffaf0" stroke-width="0"/>
+<path d="M64 84 L64 72 M74 84 L74 64 M84 84 L84 56 M94 84 L94 44" fill="none" stroke="#22b893" stroke-width="6"/>
+<path d="M62 52 L74 42 L82 46 L96 34" fill="none" stroke="#3247c8" stroke-width="3.5"/>
+<path d="M88 34 H96 V42" fill="none" stroke="#3247c8" stroke-width="3.5"/>
+<path d="M22 132 V118 C22 112 26 108 32 106 L46 102 L60 88 C62 86 64 85 68 85 H100 C104 85 107 87 109 90 L118 102 L130 105 C136 107 140 111 140 117 V132 Z" fill="#ff6b4a"/>
+<path d="M64 102 L70 92 H84 V102 Z M92 102 V92 H102 L108 102 Z" fill="#cfe6ff" stroke-width="3"/>
+<circle cx="48" cy="134" r="11" fill="#152039"/>
+<circle cx="114" cy="134" r="11" fill="#152039"/>
+<circle cx="48" cy="134" r="4" fill="#ffffff" stroke-width="0"/>
+<circle cx="114" cy="134" r="4" fill="#ffffff" stroke-width="0"/>
+</g>
+</svg>
