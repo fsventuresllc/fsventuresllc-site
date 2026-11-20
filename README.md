@@ -98,3 +98,11 @@ presentation attributes only (no `<style>`, no external refs) so the CSP holds, 
 Colour, type and spacing tokens live at the top of `public/style.css` (contrast ratios noted beside
 them). The header is a CSS-only menu (no script under the CSP). Illustrations are self-hosted SVGs in
 `public/assets/` (`hero.svg`, `logo-mark.svg`, `stickers/`).
+
+## Company page (cs-017)
+
+`/company.html` holds the company intro, the two founders, the principles, the legal facts card and the
+contact band; the home page keeps only a short teaser that links to it. The founder portraits
+(`public/assets/founders/michael.svg`, `todd.svg`) are PLACEHOLDER cartoon busts, not likenesses: to swap in
+the real caricatures, replace each file (keep a square image, its `role="img"` and `aria-label`, and the
+SVG hygiene the tests check: no `<style>`, script or external refs).

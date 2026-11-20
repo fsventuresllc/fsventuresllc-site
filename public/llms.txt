@@ -13,6 +13,7 @@
 ## Company
 
 - [About](https://fsventuresllc.com/): who we are and what we have shipped
+- [Company](https://fsventuresllc.com/company.html): the founders, Michael Schnapf and Todd Frostad, how we work and the legal facts
 - [Portfolio](https://fsventuresllc.com/portfolio.html): every live product
 - [Contact](https://fsventuresllc.com/contact.html): hello@fsventuresllc.com · Minnetonka, MN 55305, United States
 
