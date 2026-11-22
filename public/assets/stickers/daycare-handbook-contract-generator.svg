@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160" role="img" aria-label="Sticker: a parent handbook with a little house, a signature line and a toy building block">
+<defs><filter id="d" x="-20%" y="-20%" width="140%" height="150%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="4" stdDeviation="3.5" flood-color="#152039" flood-opacity="0.24"/></filter></defs>
+<g filter="url(#d)" fill="#ffffff"><rect x="18" y="10" width="104" height="134" rx="22"/><circle cx="116" cy="112" r="34"/></g>
+<g stroke="#152039" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<path d="M30 22 H92 L110 40 V132 H30 Z" fill="#fffaf0"/>
+<path d="M92 22 V40 H110" fill="#e7e2d8"/>
+<path d="M40 50 L56 36 L72 50" fill="#ff6b4a"/>
+<path d="M44 48 V64 H68 V48" fill="#3247c8"/>
+<path d="M53 64 V56 H59 V64" fill="#ffc23d" stroke-width="3"/>
+<path d="M80 52 H98 M40 78 H96 M40 90 H88" fill="none" stroke="#9aa6c4" stroke-width="3.5"/>
+<path d="M40 112 C44 104 48 104 48 110 C48 116 52 116 56 108 C58 104 62 104 62 110" fill="none" stroke="#3247c8" stroke-width="3.5"/>
+<path d="M40 122 H80" fill="none" stroke="#9aa6c4" stroke-width="3"/>
+<path d="M100 98 L110 90 H138 L128 98 Z" fill="#ffe08a"/>
+<path d="M128 98 L138 90 V118 L128 126 Z" fill="#e8a91f"/>
+<rect x="100" y="98" width="28" height="28" fill="#ffc23d"/>
+<path d="M107 120 L114 104 L121 120 M109.5 114 H118.5" fill="none" stroke-width="3.5"/>
+</g>
+</svg>
