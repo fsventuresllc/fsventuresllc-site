@@ -84,6 +84,34 @@
       ],
       "screenshot": "/assets/portfolio/fl-condo-records-compliance.webp",
       "sticker": "/assets/stickers/fl-condo-records-compliance.svg"
+    },
+    {
+      "slug": "daycare-handbook-contract-generator",
+      "name": "Daycare Handbook and Contract Builder",
+      "blurb": "Builds a home daycare's parent handbook and enrollment contract from the provider's own answers, and lets parents read and sign them online.",
+      "url": "https://homedaycarecontract.com",
+      "description": "For licensed and registered home-based child care providers. Every family needs a handbook and a contract, and writing them from scratch or adapting a template takes days. The builder assembles both from your answers, shows which sections your state's licensing rules ask for in Texas, California and Florida, and sends each family a link to read and sign.",
+      "highlights": [
+        "Sections and rule numbers mapped for Texas, California and Florida",
+        "Parents sign online, and you get a signature certificate for every document",
+        "Free to build and preview the whole handbook"
+      ],
+      "screenshot": "/assets/portfolio/daycare-handbook-contract-generator.webp",
+      "sticker": "/assets/stickers/daycare-handbook-contract-generator.svg"
+    },
+    {
+      "slug": "studio-mindbody-qbo-csv",
+      "name": "Studio Month-End",
+      "blurb": "Turns a fitness studio's monthly sales export into one balanced journal entry file for QuickBooks Online, with a tie-out report.",
+      "url": "https://studiomonthend.com",
+      "description": "For yoga, pilates and fitness studios, and the bookkeepers who close their books. Month-end means rebuilding sales, tax, tips, gift cards and refunds from a studio software export by hand. Studio Month-End maps your categories and payment types to your accounts once, then builds one balanced journal entry per month that you import into QuickBooks Online.",
+      "highlights": [
+        "Your export is read in your browser and never uploaded",
+        "One balanced journal entry per studio per month, with a tie-out report",
+        "Free to map, preview and check your first month"
+      ],
+      "screenshot": "/assets/portfolio/studio-mindbody-qbo-csv.webp",
+      "sticker": "/assets/stickers/studio-mindbody-qbo-csv.svg"
     }
   ]
 }

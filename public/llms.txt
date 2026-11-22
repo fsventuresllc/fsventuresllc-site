@@ -10,6 +10,8 @@
 - [GigDriverProfit](https://gigdriverprofit.com): Shows Android gig-delivery drivers the true profit per hour of each offer the moment it arrives.
 - [SPCC Plan Builder](https://spccbuilder.com): Tells small facilities whether the EPA's SPCC rule applies to them, then builds a self-certified Tier I plan with review reminders.
 - [Condo Records Portal](https://condorecordsportal.com): An official-records portal for Florida condo associations, with the posting checklist and request deadlines the statute requires.
+- [Daycare Handbook and Contract Builder](https://homedaycarecontract.com): Builds a home daycare's parent handbook and enrollment contract from the provider's own answers, and lets parents read and sign them online.
+- [Studio Month-End](https://studiomonthend.com): Turns a fitness studio's monthly sales export into one balanced journal entry file for QuickBooks Online, with a tie-out report.
 ## Company
 
 - [About](https://fsventuresllc.com/): who we are and what we have shipped
